@@ -29,7 +29,7 @@ namespace Kyear.Graph
             this.AddManipulator(new RectangleSelector());
  
             // 加载uss风格文件
-            var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Editor/GraphView/Resources/GraphViewBackGround.uss");
+            var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/KyearFramework/GraphView/Resources/GraphViewBackGround.uss");
             if(styleSheet != null) 
                 styleSheets.Add(styleSheet);
             // 添加背景网格
