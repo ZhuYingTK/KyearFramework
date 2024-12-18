@@ -57,12 +57,9 @@ namespace Kyear.Graph
             Close();
         }
         
-        [MenuItem("Window/KyearFramework/BaseGraphWindow")]
-        public static void ShowExample()
-        {
-            BaseGraphWindow window = (BaseGraphWindow)EditorWindow.GetWindow(typeof(BaseGraphWindow));
-            window.titleContent = new GUIContent("测试窗口");
-        }
+        /// <summary>
+        /// 创建GUI,来自UIToolkit
+        /// </summary>
         public void CreateGUI()
         {
             VisualElement root = rootVisualElement;
@@ -71,6 +68,8 @@ namespace Kyear.Graph
             visualTree.CloneTree(root);
             var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/KyearFramework/GraphView/AssetScript/Window/BaseGraphWindow.uss");
             root.styleSheets.Add(styleSheet);
+            var graph = root.Q<BaseGraph>("Graph");
+            graph.SetParentWindow(this);
         }
         
         [OnOpenAsset(1)]
@@ -87,15 +86,18 @@ namespace Kyear.Graph
                     }
                 }
                 var window = CreateWindow<BaseGraphWindow>(typeof(BaseGraphWindow), typeof(SceneView));
-                window.Initialize(asset.guid);
+                window.Init(asset.guid);
                 window.Focus();
                 return true;
             }
 
             return false;
         }
-        
-        public void Initialize(string assetGuid)
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        /// <param name="assetGuid"></param>
+        private void Init(string assetGuid)
         {
             try
             {
@@ -108,18 +110,17 @@ namespace Kyear.Graph
 
                 if (selectedGuid == assetGuid)
                     return;
-
-
                 var path = AssetDatabase.GetAssetPath(asset);
                 selectedGuid = assetGuid;
                 string graphName = Path.GetFileNameWithoutExtension(path);
-                
                 UpdateTitle();
 
                 Repaint();
+                
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Debug.LogError(e);
             }
         }
     }

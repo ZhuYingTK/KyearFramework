@@ -2,20 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-
-namespace Kyear.Graph
-{
-    using UnityEngine;
+using UnityEngine;
 using System;
 using System.IO;
 using System.Linq;
 using UnityEditor;
 
-namespace UnityEditor.ShaderGraph
+namespace Kyear.Graph
 {
-    class ShaderGraphAssetPostProcessor : AssetPostprocessor
+    class GraphAssetPostProcessor : AssetPostprocessor
     {
         private const string Extension = "asset";
+
         static void UpdateAfterAssetChange(string[] newNames)
         {
             // This will change the title of the window.
@@ -43,26 +41,33 @@ namespace UnityEditor.ShaderGraph
             }
         }
 
-        static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
+        static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets,
+            string[] movedFromAssetPaths)
         {
 
             // 移动资源
-            bool anyMovedShaders = movedAssets.Any(val => val.EndsWith(Extension, StringComparison.InvariantCultureIgnoreCase));
-            anyMovedShaders |= movedAssets.Any(val => val.EndsWith(Extension, StringComparison.InvariantCultureIgnoreCase));
-            if (anyMovedShaders)
+            bool anyMovedassets = movedAssets.Any(val =>
+                val.EndsWith(Extension, StringComparison.InvariantCultureIgnoreCase));
+            anyMovedassets |= movedAssets.Any(val =>
+                val.EndsWith(Extension, StringComparison.InvariantCultureIgnoreCase));
+            if (anyMovedassets)
                 UpdateAfterAssetChange(movedAssets);
 
             // 删除资源
-            bool anyRemovedShaders = deletedAssets.Any(val => val.EndsWith(Extension, StringComparison.InvariantCultureIgnoreCase));
-            anyRemovedShaders |= deletedAssets.Any(val => val.EndsWith(Extension, StringComparison.InvariantCultureIgnoreCase));
-            if (anyRemovedShaders)
+            bool anyRemovedassets = deletedAssets.Any(val =>
+                val.EndsWith(Extension, StringComparison.InvariantCultureIgnoreCase));
+            anyRemovedassets |= deletedAssets.Any(val =>
+                val.EndsWith(Extension, StringComparison.InvariantCultureIgnoreCase));
+            if (anyRemovedassets)
                 DisplayDeletionDialog(deletedAssets);
 
+            //引入的资源
             var changedGraphGuids = importedAssets
-                .Where(x => x.EndsWith(Extension, StringComparison.InvariantCultureIgnoreCase) && AssetDatabase.LoadAssetAtPath<BaseGraphAsset>(x)!= null)
+                .Where(x => x.EndsWith(Extension, StringComparison.InvariantCultureIgnoreCase) &&
+                            AssetDatabase.LoadAssetAtPath<BaseGraphAsset>(x) != null)
                 .Select(LoadAndInitAsset)
                 .ToList();
-            
+
             BaseGraphWindow[] windows = null;
             if (changedGraphGuids.Count > 0)
             {
@@ -75,7 +80,7 @@ namespace UnityEditor.ShaderGraph
                     }
                 }
             }
-
+            //初始化并返回GUID
             string LoadAndInitAsset(string path)
             {
                 string guid = AssetDatabase.AssetPathToGUID(path);
@@ -84,39 +89,9 @@ namespace UnityEditor.ShaderGraph
                 {
                     asset.guid = guid;
                 }
+
                 return AssetDatabase.AssetPathToGUID(guid);
             }
-            // moved or imported subgraphs or HLSL files should notify open shadergraphs that they need to handle them
-            //var changedFileGUIDs = movedAssets.Concat(importedAssets).Concat(deletedAssets)
-            //    .Where(x =>
-            //    {
-            //        if (x.EndsWith(Extension, StringComparison.InvariantCultureIgnoreCase) || CustomFunctionNode.s_ValidExtensions.Contains(Path.GetExtension(x)))
-            //        {
-            //            return true;
-            //        }
-            //        else
-            //        {
-            //            var asset = AssetDatabase.GetMainAssetTypeAtPath(x);
-            //            return asset is null || asset.IsSubclassOf(typeof(Texture));
-            //        }
-            //    })
-            //    .Select(AssetDatabase.AssetPathToGUID)
-            //    .Distinct()
-            //    .ToList();
-//
-            //if (changedFileGUIDs.Count > 0)
-            //{
-            //    if (windows == null)
-            //    {
-            //        windows = Resources.FindObjectsOfTypeAll<BaseGraphWindow>();
-            //    }
-            //    foreach (var window in windows)
-            //    {
-            //        window.ReloadSubGraphsOnNextUpdate(changedFileGUIDs);
-            //    }
-            //}
         }
     }
-}
-
 }

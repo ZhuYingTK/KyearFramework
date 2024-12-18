@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Kyear.Graph
@@ -9,13 +9,22 @@ namespace Kyear.Graph
     public class BaseGraph : GraphView
     {
         public new class UxmlFactory : UxmlFactory<BaseGraph, UxmlTraits> { }
-        
+
+        private EditorWindow parentWindow;
         
         protected BaseGraphAsset m_graphAsset = null;
+
         public BaseGraph()
         {
             Init();
+            AddElement(new BaseGraphNode());
         }
+
+        public void SetParentWindow(EditorWindow window)
+        {
+            parentWindow = window;
+        }
+        
         private void Init()
         {
             // 开启Graph缩放
@@ -28,13 +37,43 @@ namespace Kyear.Graph
             // 添加框选功能
             this.AddManipulator(new RectangleSelector());
  
-            // 加载uss风格文件
+            // 加载USS风格文件
             var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/KyearFramework/GraphView/Resources/GraphViewBackGround.uss");
-            if(styleSheet != null) 
+            if (styleSheet != null)
                 styleSheets.Add(styleSheet);
             // 添加背景网格
             Insert(0, new GridBackground());
+
+            nodeCreationRequest += context =>
+            {
+                CreateNode(context);
+            };
+        }
+
+        public void CreateNode(NodeCreationContext context)
+        {
+            // 获取鼠标位置
+            Vector2 pos = GetLocalMousePosition(context.screenMousePosition);
+
+            // 创建节点并初始化位置
+            var node = new BaseGraphNode();
+            node.Init(pos);
+            AddElement(node);
+        }
+
+        public Vector2 GetLocalMousePosition(Vector2 screenPosition)
+        {
+            // 第一步：将屏幕坐标转换为 EditorWindow 坐标系
+            Vector2 editorWindowPosition = screenPosition - parentWindow.position.position;
+
+            // 第二步：将 EditorWindow 坐标转换为 GraphView 的本地坐标
+            float scale = contentContainer.resolvedStyle.scale.value.x;
+            Vector2 localPosition = contentViewContainer.WorldToLocal(editorWindowPosition);
+
+            // 考虑缩放
+            localPosition /= scale;
+
+            return localPosition;
         }
     }
 }
-
