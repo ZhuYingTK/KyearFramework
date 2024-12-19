@@ -1,0 +1,64 @@
+/* Containers 容器 */
+.kyear-node__extension-container
+{
+    background-color: var(--kyear-基础灰色);
+    padding: 8px;
+}
+
+.kyear-node__main-container
+{
+    background-color: var(--kyear-基础灰色);
+}
+
+.kyear-node__custom-data-container
+{
+    background-color: var(--kyear-基础灰色);
+    border-radius: 4px;
+    padding: 8px;
+}
+
+
+/* Inputs 输入 */
+.kyear-node__text-field > .unity-text-field__input
+{
+    background-color: var(--kyear-基础灰色);
+    border-color: var(--kyear-浅黑);
+    border-radius: 4px;
+    max-width: 240px;
+    min-width: 160px;
+    padding: 8px;
+    white-space: normal;
+}
+
+.kyear-node__text-field__hidden > .unity-text-field__input
+{
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.kyear-node__text-field__hidden > .unity-text-field__input:focus
+{
+    background-color: var(--kyear-基础灰色);
+    border-color: var(--kyear-浅黑);
+}
+
+.kyear-node__quote-text-field > .unity-text-field__input
+{
+    background-color: var(--kyear-蓝灰);
+    border-color: transparent;
+    border-left-color: var(--kyear-深蓝灰);
+    border-left-width: 4px;
+    padding: 16px;
+    max-width: 600px;
+}
+
+.kyear-node__quote-text-field > .unity-text-field__input:hover
+{
+    background-color: var(--kyear-浅黑);
+}
+
+.kyear-node__quote-text-field > .unity-text-field__input:focus
+{
+    background-color: var(--kyear-基础灰色);
+    border-color: var(--kyear-蓝灰);
+}

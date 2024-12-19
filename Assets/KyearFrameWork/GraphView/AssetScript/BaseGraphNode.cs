@@ -24,6 +24,32 @@ namespace Kyear.Graph
                 id = ID,
                 position = posotion,
             };
+            mainContainer.style.backgroundColor = new Color(29f / 255f, 29f / 255f, 30f / 255f);
+            mainContainer.AddToClassList("kyear-node__main-container");
+            Draw_ExtensionContainer();
+        }
+
+        public virtual void Draw_ExtensionContainer()
+        {
+            extensionContainer.AddToClassList("kyear-node__extension-container");
+            VisualElement customDataContainer = new VisualElement();
+            customDataContainer.AddToClassList("kyear-node__custom-data-container");
+
+
+            Foldout textFoldout = new Foldout();
+
+            TextField textTextField = new TextField(){
+                value = "value",
+            };
+            textTextField.multiline = true;
+            textTextField.AddToClassList("kyear-node__text-field");
+            textTextField.AddToClassList("kyear-node__quote-text-field");
+
+            textFoldout.Add(textTextField);
+
+            customDataContainer.Add(textFoldout);
+
+            extensionContainer.Add(customDataContainer);
         }
     }
 }
