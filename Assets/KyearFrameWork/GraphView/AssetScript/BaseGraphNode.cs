@@ -36,7 +36,11 @@ namespace Kyear.Graph
             customDataContainer.AddToClassList("kyear-node__custom-data-container");
 
 
-            Foldout textFoldout = new Foldout();
+            Foldout textFoldout = new Foldout()
+            {
+                text = "输入",
+                value = true
+            };
 
             TextField textTextField = new TextField(){
                 value = "value",
@@ -44,7 +48,6 @@ namespace Kyear.Graph
             textTextField.multiline = true;
             textTextField.AddToClassList("kyear-node__text-field");
             textTextField.AddToClassList("kyear-node__quote-text-field");
-
             textFoldout.Add(textTextField);
 
             customDataContainer.Add(textFoldout);

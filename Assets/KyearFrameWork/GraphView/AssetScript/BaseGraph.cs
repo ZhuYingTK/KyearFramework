@@ -39,8 +39,11 @@ namespace Kyear.Graph
  
             // 加载USS风格文件
             var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/KyearFramework/GraphView/Resources/GraphViewBackGround.uss");
+            var nodeStyleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/KyearFramework/GraphView/Resources/KyearGraphNodeStyles.uss");
             if (styleSheet != null)
                 styleSheets.Add(styleSheet);
+            if(nodeStyleSheet != null)
+                styleSheets.Add(nodeStyleSheet);
             // 添加背景网格
             Insert(0, new GridBackground());
 

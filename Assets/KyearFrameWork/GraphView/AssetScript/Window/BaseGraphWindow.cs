@@ -68,6 +68,9 @@ namespace Kyear.Graph
             visualTree.CloneTree(root);
             var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/KyearFramework/GraphView/AssetScript/Window/BaseGraphWindow.uss");
             root.styleSheets.Add(styleSheet);
+            //添加自定义根元素
+            var rootSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/KyearFramework/GraphView/Resources/KyearVariableStyles.uss");
+            root.styleSheets.Add(rootSheet);
             var graph = root.Q<BaseGraph>("Graph");
             graph.SetParentWindow(this);
         }
