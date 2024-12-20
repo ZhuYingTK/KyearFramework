@@ -9,9 +9,7 @@ namespace Kyear.Graph
     {
         [HideInInspector]
         public string guid = default;
-
-        public List<BaseGraph> BaseGraphs;
+        
+        public List<BaseGraphNodeData> BaseGraphs = new List<BaseGraphNodeData>();
     }
-
-
 }

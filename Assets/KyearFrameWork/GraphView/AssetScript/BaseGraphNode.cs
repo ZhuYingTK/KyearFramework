@@ -29,11 +29,14 @@ namespace Kyear.Graph
             Draw_ExtensionContainer();
             Draw_InputContainer();
             Draw_OutputContainer();
+            
+            //刷新状态，保证UI刷新
+            RefreshExpandedState();
+            RefreshPorts();
         }
         
         public virtual void Draw_InputContainer()
         {
-            
         }
 
         public virtual void Draw_OutputContainer()
@@ -44,9 +47,6 @@ namespace Kyear.Graph
         public virtual void Draw_ExtensionContainer()
         {
             extensionContainer.AddToClassList("kyear-node__extension-container");
-
-            //刷新状态，保证UI刷新
-            RefreshExpandedState();
         }
     }
 }

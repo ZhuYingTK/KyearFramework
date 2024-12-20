@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -7,6 +8,20 @@ namespace Kyear.Graph
 {
     public class DialogNode : BaseGraphNode
     {
+        public override void Draw_OutputContainer()
+        {
+            var inputPort = Port.Create<Edge>(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(Port));
+            inputContainer.Add(inputPort);
+            base.Draw_OutputContainer();
+        }
+
+        public override void Draw_InputContainer()
+        {
+            var outputPort = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(Port));
+            outputContainer.Add(outputPort);
+            base.Draw_InputContainer();
+        }
+
         public override void Draw_ExtensionContainer()
         {
             VisualElement customDataContainer = new VisualElement();
