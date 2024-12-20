@@ -17,7 +17,9 @@ namespace Kyear.Graph
         public BaseGraph()
         {
             Init();
-            AddElement(new BaseGraphNode());
+            var rootNode = new DialogNode();
+            rootNode.Init(Vector2.zero);
+            AddElement(rootNode);
         }
 
         public void SetParentWindow(EditorWindow window)
@@ -59,7 +61,7 @@ namespace Kyear.Graph
             Vector2 pos = GetLocalMousePosition(context.screenMousePosition);
 
             // 创建节点并初始化位置
-            var node = new BaseGraphNode();
+            var node = new DialogNode();
             node.Init(pos);
             AddElement(node);
         }

@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 
 namespace Kyear.Graph
 {
-    public class BaseGraphNode : Node
+    public abstract class BaseGraphNode : Node
     {
         public string ID => data?.id;
         public BaseGraphNodeData data;
@@ -27,32 +27,26 @@ namespace Kyear.Graph
             mainContainer.style.backgroundColor = new Color(29f / 255f, 29f / 255f, 30f / 255f);
             mainContainer.AddToClassList("kyear-node__main-container");
             Draw_ExtensionContainer();
+            Draw_InputContainer();
+            Draw_OutputContainer();
+        }
+        
+        public virtual void Draw_InputContainer()
+        {
+            
+        }
+
+        public virtual void Draw_OutputContainer()
+        {
+            
         }
 
         public virtual void Draw_ExtensionContainer()
         {
             extensionContainer.AddToClassList("kyear-node__extension-container");
-            VisualElement customDataContainer = new VisualElement();
-            customDataContainer.AddToClassList("kyear-node__custom-data-container");
 
-
-            Foldout textFoldout = new Foldout()
-            {
-                text = "输入",
-                value = true
-            };
-
-            TextField textTextField = new TextField(){
-                value = "value",
-            };
-            textTextField.multiline = true;
-            textTextField.AddToClassList("kyear-node__text-field");
-            textTextField.AddToClassList("kyear-node__quote-text-field");
-            textFoldout.Add(textTextField);
-
-            customDataContainer.Add(textFoldout);
-
-            extensionContainer.Add(customDataContainer);
+            //刷新状态，保证UI刷新
+            RefreshExpandedState();
         }
     }
 }
