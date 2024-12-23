@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace Kyear.Graph
@@ -9,7 +10,16 @@ namespace Kyear.Graph
     {
         [HideInInspector]
         public string guid = default;
-        
-        public List<BaseGraphNodeData> BaseGraphs = new List<BaseGraphNodeData>();
+        //支持BaseGraphNode扩展
+        [SerializeReference]
+        public List<BaseGraphNodeData> nodeDataList = new List<BaseGraphNodeData>();
+
+        /// <summary>
+        /// 需要更新持久化数据时调用
+        /// </summary>
+        public void MarkDirty()
+        {
+            EditorUtility.SetDirty(this);
+        }
     }
 }

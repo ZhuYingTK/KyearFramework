@@ -11,6 +11,8 @@ namespace Kyear.Graph
         public new class UxmlFactory : UxmlFactory<BaseGraph, UxmlTraits> { }
 
         private EditorWindow parentWindow;
+        //当前聚焦对象
+        private object m_currentFocusObject;
         
         protected BaseGraphAsset m_graphAsset = null;
 
@@ -53,6 +55,16 @@ namespace Kyear.Graph
             {
                 CreateNode(context);
             };
+            RegisterCallback<PointerDownEvent>(OnPointerDown);
+        }
+
+        private void OnPointerDown(PointerDownEvent evt)
+        {
+            if (evt.target != m_currentFocusObject)
+            {
+                m_graphAsset?.MarkDirty();
+                m_currentFocusObject = evt.target;
+            }
         }
 
         public void CreateNode(NodeCreationContext context)
@@ -81,6 +93,12 @@ namespace Kyear.Graph
             return localPosition;
         }
         
+        /// <summary>
+        /// 返回可连接对象
+        /// </summary>
+        /// <param name="startPort"></param>
+        /// <param name="nodeAdapter"></param>
+        /// <returns></returns>
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
         {
             List<Port> compatiblePorts = new List<Port>();
