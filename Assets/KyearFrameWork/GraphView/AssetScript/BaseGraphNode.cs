@@ -18,6 +18,7 @@ namespace Kyear.Graph
         public virtual void Init(Vector2 posotion)
         {
             SetPosition(new Rect(posotion,Vector2.zero));
+            //给每个Node都赋予唯一ID
             string ID = Guid.NewGuid().ToString();
             data = new BaseGraphNodeData()
             {

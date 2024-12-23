@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 namespace Kyear.Graph
 {
-    public class BaseGraph : GraphView
+    public partial class BaseGraph : GraphView
     {
         public new class UxmlFactory : UxmlFactory<BaseGraph, UxmlTraits> { }
 
@@ -16,20 +16,44 @@ namespace Kyear.Graph
         
         protected BaseGraphAsset m_graphAsset = null;
 
-        public BaseGraph()
-        {
-            Init();
-            var rootNode = new DialogNode();
-            rootNode.Init(Vector2.zero);
-            AddElement(rootNode);
-        }
-
         public void SetParentWindow(EditorWindow window)
         {
             parentWindow = window;
         }
         
-        private void Init()
+        public void Init(BaseGraphAsset asset)
+        {
+            m_graphAsset = asset;
+            AddManipulators();
+            AddStyles();
+            nodeCreationRequest += context =>
+            {
+                CreateNode(context);
+            };
+            RegisterCallback<PointerDownEvent>(OnPointerDown);
+            graphViewChanged += OnGraphViewChanged;
+        }
+
+        /// <summary>
+        /// 视图变化响应
+        /// </summary>
+        /// <param name="graphViewChange"></param>
+        /// <returns></returns>
+        private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
+        {
+            //对边进行判断
+            if (graphViewChange.edgesToCreate != null)
+            {
+                foreach (Edge edge in graphViewChange.edgesToCreate)
+                {
+                    var sourcePort = edge.input;
+                    var destPort = edge.output;
+                }
+            }
+            return graphViewChange;
+        }
+
+        private void AddManipulators()
         {
             // 开启Graph缩放
             SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
@@ -40,7 +64,10 @@ namespace Kyear.Graph
             this.AddManipulator(new SelectionDragger());
             // 添加框选功能
             this.AddManipulator(new RectangleSelector());
- 
+        }
+
+        private void AddStyles()
+        {
             // 加载USS风格文件
             var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/KyearFramework/GraphView/Resources/GraphViewBackGround.uss");
             var nodeStyleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/KyearFramework/GraphView/Resources/KyearGraphNodeStyles.uss");
@@ -50,12 +77,6 @@ namespace Kyear.Graph
                 styleSheets.Add(nodeStyleSheet);
             // 添加背景网格
             Insert(0, new GridBackground());
-
-            nodeCreationRequest += context =>
-            {
-                CreateNode(context);
-            };
-            RegisterCallback<PointerDownEvent>(OnPointerDown);
         }
 
         private void OnPointerDown(PointerDownEvent evt)

@@ -12,16 +12,12 @@ namespace Kyear.Graph
 {
     public class BaseGraphWindow : EditorWindow
     {
-        //当前窗口对应的资源的GUID
-        [SerializeField]
-        string m_Selected;
+        //当前窗口资源
+        [SerializeReference]
+        private BaseGraphAsset m_asset;
         public string selectedGuid
         {
-            get { return m_Selected; }
-            private set
-            {
-                m_Selected = value;
-            }
+            get { return m_asset.guid; }
         }
 
         /// <summary>
@@ -73,6 +69,7 @@ namespace Kyear.Graph
             root.styleSheets.Add(rootSheet);
             var graph = root.Q<BaseGraph>("Graph");
             graph.SetParentWindow(this);
+            graph.Init(m_asset);
         }
         
         [OnOpenAsset(1)]
@@ -89,7 +86,7 @@ namespace Kyear.Graph
                     }
                 }
                 var window = CreateWindow<BaseGraphWindow>(typeof(BaseGraphWindow), typeof(SceneView));
-                window.Init(asset.guid);
+                window.Init(asset);
                 window.Focus();
                 return true;
             }
@@ -100,21 +97,20 @@ namespace Kyear.Graph
         /// 初始化
         /// </summary>
         /// <param name="assetGuid"></param>
-        private void Init(string assetGuid)
+        private void Init(BaseGraphAsset asset)
         {
             try
             {
-                var asset = AssetDatabase.LoadAssetAtPath<Object>(AssetDatabase.GUIDToAssetPath(assetGuid));
                 if (asset == null)
                     return;
 
                 if (!EditorUtility.IsPersistent(asset))
                     return;
 
-                if (selectedGuid == assetGuid)
+                if (selectedGuid == asset.guid)
                     return;
                 var path = AssetDatabase.GetAssetPath(asset);
-                selectedGuid = assetGuid;
+                m_asset = asset;
                 string graphName = Path.GetFileNameWithoutExtension(path);
                 UpdateTitle();
 
