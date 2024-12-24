@@ -15,16 +15,17 @@ namespace Kyear.Graph
         {
             title = "Sample";
         }
-        public virtual void Init(Vector2 posotion)
+
+        public virtual void Save()
         {
-            SetPosition(new Rect(posotion,Vector2.zero));
+            data.position = GetPosition().position;
+        }
+        
+        public virtual void Init(BaseGraphNodeData data)
+        {
+            this.data = data;
+            SetPosition(new Rect(this.data.position,Vector2.zero));
             //给每个Node都赋予唯一ID
-            string ID = Guid.NewGuid().ToString();
-            data = new BaseGraphNodeData()
-            {
-                id = ID,
-                position = posotion,
-            };
             mainContainer.style.backgroundColor = new Color(29f / 255f, 29f / 255f, 30f / 255f);
             mainContainer.AddToClassList("kyear-node__main-container");
             Draw_ExtensionContainer();

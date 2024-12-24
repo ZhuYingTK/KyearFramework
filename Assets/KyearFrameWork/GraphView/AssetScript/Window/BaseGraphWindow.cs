@@ -17,7 +17,7 @@ namespace Kyear.Graph
         private BaseGraphAsset m_asset;
         public string selectedGuid
         {
-            get { return m_asset.guid; }
+            get { return m_asset?.guid; }
         }
 
         /// <summary>
@@ -59,7 +59,6 @@ namespace Kyear.Graph
         public void CreateGUI()
         {
             VisualElement root = rootVisualElement;
-        
             var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/KyearFramework/GraphView/AssetScript/Window/BaseGraphWindow.uxml");
             visualTree.CloneTree(root);
             var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/KyearFramework/GraphView/AssetScript/Window/BaseGraphWindow.uss");
@@ -67,9 +66,6 @@ namespace Kyear.Graph
             //添加自定义根元素
             var rootSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/KyearFramework/GraphView/Resources/KyearVariableStyles.uss");
             root.styleSheets.Add(rootSheet);
-            var graph = root.Q<BaseGraph>("Graph");
-            graph.SetParentWindow(this);
-            graph.Init(m_asset);
         }
         
         [OnOpenAsset(1)]
@@ -107,15 +103,16 @@ namespace Kyear.Graph
                 if (!EditorUtility.IsPersistent(asset))
                     return;
 
-                if (selectedGuid == asset.guid)
+                if (selectedGuid != null && selectedGuid == asset.guid)
                     return;
                 var path = AssetDatabase.GetAssetPath(asset);
                 m_asset = asset;
+                var graph = rootVisualElement.Q<BaseGraph>("Graph");
+                graph.SetParentWindow(this);
+                graph.Init(m_asset);
                 string graphName = Path.GetFileNameWithoutExtension(path);
                 UpdateTitle();
-
                 Repaint();
-                
             }
             catch (Exception e)
             {

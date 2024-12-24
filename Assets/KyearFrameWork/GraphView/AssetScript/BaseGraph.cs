@@ -24,11 +24,11 @@ namespace Kyear.Graph
         public void Init(BaseGraphAsset asset)
         {
             m_graphAsset = asset;
+            Load();
             AddManipulators();
             AddStyles();
             nodeCreationRequest += context =>
             {
-                CreateNode(context);
             };
             RegisterCallback<PointerDownEvent>(OnPointerDown);
             graphViewChanged += OnGraphViewChanged;
@@ -83,20 +83,9 @@ namespace Kyear.Graph
         {
             if (evt.target != m_currentFocusObject)
             {
-                m_graphAsset?.MarkDirty();
+                Save();
                 m_currentFocusObject = evt.target;
             }
-        }
-
-        public void CreateNode(NodeCreationContext context)
-        {
-            // 获取鼠标位置
-            Vector2 pos = GetLocalMousePosition(context.screenMousePosition);
-
-            // 创建节点并初始化位置
-            var node = new DialogNode();
-            node.Init(pos);
-            AddElement(node);
         }
 
         public Vector2 GetLocalMousePosition(Vector2 screenPosition)

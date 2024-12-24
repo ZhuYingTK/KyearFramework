@@ -27,11 +27,21 @@ namespace Kyear.Graph
         [SerializeReference] public List<BasePortData> inputPorts;
         [SerializeReference] public List<BasePortData> outputPorts;
         [SerializeReference] public List<BaseEdgeData> edges;
+
+        public virtual Type GetTargetType()
+        {
+            return typeof(BaseGraphNode);
+        }
     }
 
     [Serializable]
     public class DialogNodeData : BaseGraphNodeData
     {
         [SerializeField] public string content;
+
+        public override Type GetTargetType()
+        {
+            return typeof(DialogNode);
+        }
     }
 }
