@@ -9,14 +9,15 @@ namespace Kyear.Graph
     public class BasePortData
     {
         [SerializeField] public string name;
+        [SerializeField] public uint ID;
     }
 
     [Serializable]
     public class BaseEdgeData
     {
         [SerializeField] public string target;      //目标GUID
-        [SerializeField] public int startPortIdx;   //起点的端口ID
-        [SerializeField] public int endPortIdx;     //终点的端口ID
+        [SerializeField] public uint startPortID;   //起点的端口ID
+        [SerializeField] public uint endPortID;     //终点的端口ID
     }
     
     [Serializable]

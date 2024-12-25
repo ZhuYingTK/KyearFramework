@@ -38,10 +38,10 @@ namespace Kyear.Graph
             {
                 foreach (BaseEdgeData edgeData in nodeData.edges)
                 {
-                    Node startNode = m_nodeDic[nodeData.id];
-                    Port startPort = (Port)startNode.outputContainer.Children().ToArray()[edgeData.startPortIdx];
-                    Node endNode = m_nodeDic[edgeData.target];
-                    Port endPort = (Port)endNode.inputContainer.Children().ToArray()[edgeData.endPortIdx];
+                    BaseGraphNode startNode = m_nodeDic[nodeData.id];
+                    Port startPort = startNode.outputPortDic[edgeData.startPortID];
+                    BaseGraphNode endNode = m_nodeDic[edgeData.target];
+                    Port endPort = endNode.inputPortDic[edgeData.endPortID];
                     Edge edge = startPort.ConnectTo(endPort);
                     AddElement(edge);
                     startNode.RefreshPorts();

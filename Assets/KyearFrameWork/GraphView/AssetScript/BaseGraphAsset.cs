@@ -30,7 +30,7 @@ namespace Kyear.Graph
 
         public void AddNode(BaseGraphNode node)
         {
-            nodeDataList.Add(node.data);
+            AddNode(node.data);
         }
 
         #endregion

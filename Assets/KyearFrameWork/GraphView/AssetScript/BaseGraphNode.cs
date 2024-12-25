@@ -65,6 +65,23 @@ namespace Kyear.Graph
         }
 
         #region 端口
+
+        public Dictionary<uint, Port> inputPortDic = new Dictionary<uint, Port>();
+        public Dictionary<uint, Port> outputPortDic = new Dictionary<uint, Port>();
+
+        ///生成PortID
+        public uint GeneratePortID(PortType type)
+        {
+            //0记为错误标记
+            uint id = 1;
+            var Dic = type == PortType.Input ? inputPortDic : outputPortDic;
+            while (true)
+            {
+                if (!Dic.ContainsKey(id))
+                    return id;
+            }
+        }
+        
         public enum PortType
         {
             Output,
@@ -75,33 +92,24 @@ namespace Kyear.Graph
         {
             var direction = type == PortType.Input ? Direction.Input : Direction.Output;
             var container = type == PortType.Input ? inputContainer : outputContainer;
+            var dic = type == PortType.Input ? inputPortDic : outputPortDic;
             var port = Port.Create<Edge>(Orientation.Horizontal, direction, Port.Capacity.Single, typeof(Port));
             port.name = data.name;
             port.userData = data;
             container.Add(port);
+            dic[data.ID] = port;
         }
 
-        public int GetPortDataID(Port port)
+        public uint GetPortDataID(Port port)
         {
             var protData = port.userData as BasePortData;
             if (protData == null)
             {
-                Debug.LogError("[KyearGraphError]  节点字典内没有port");
-                return -1;
+                Debug.LogError("[KyearGraphError]  port没有数据");
+                return 0;
             }
-            
-            for (int i = 0; i < data.inputPorts.Count; i++)
-            {
-                if (data.inputPorts[i] == protData)
-                    return i;
-            }
-            for (int i = 0; i < data.outputPorts.Count; i++)
-            {
-                if (data.inputPorts[i] == protData)
-                    return i;
-            }
-            Debug.LogError("[KyearGraphError]  节点数据内没有port");
-            return -1;
+
+            return protData.ID;
         }
 
         #endregion
@@ -120,8 +128,8 @@ namespace Kyear.Graph
             }
             var edgeData = new BaseEdgeData()
             {
-                startPortIdx = GetPortDataID(sourcePort),
-                endPortIdx = destNode.GetPortDataID(destPort),
+                startPortID = GetPortDataID(sourcePort),
+                endPortID = destNode.GetPortDataID(destPort),
                 target = destNode.ID
             };
             data.edges.Add(edgeData);
