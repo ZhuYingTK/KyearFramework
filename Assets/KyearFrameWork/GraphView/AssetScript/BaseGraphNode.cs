@@ -36,6 +36,21 @@ namespace Kyear.Graph
             RefreshExpandedState();
             RefreshPorts();
         }
+
+        /// <summary>
+        /// 生成新节点
+        /// </summary>
+        /// <param name="position"></param>
+        public virtual void CreateData(Vector2 position)
+        {
+            BaseGraphNodeData data = new BaseGraphNodeData()
+            {
+                id = Guid.NewGuid().ToString(),
+                position = position,
+            };
+            Debug.Log($"创建节点:{data.id}");
+            Init(data);
+        }
         
         public virtual void Draw_InputContainer()
         {

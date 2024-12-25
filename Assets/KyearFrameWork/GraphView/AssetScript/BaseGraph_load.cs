@@ -32,8 +32,19 @@ namespace Kyear.Graph
                 AddNode(node);
             }
         }
+
+        /// <summary>
+        /// 创建节点
+        /// </summary>
+        /// <returns></returns>
+        public BaseGraphNode CreateNode(Type nodeType,Vector2 position)
+        {
+            BaseGraphNode node = (BaseGraphNode)Activator.CreateInstance(nodeType);
+            node.CreateData(position);
+            return node;
+        }
         ///添加节点
-        public void AddNode(BaseGraphNode node)
+        private void AddNode(BaseGraphNode node)
         {
             AddElement(node);
         }

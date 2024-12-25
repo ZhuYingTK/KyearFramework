@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Kyear.Graph
 {
-    public class BaseSearchWindow : ScriptableObject, ISearchWindowProvider
+    public class DialogSearchWindow : ScriptableObject, ISearchWindowProvider
     {
         private BaseGraph graphView;
         private Texture2D indentationIcon;
