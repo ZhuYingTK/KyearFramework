@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
@@ -37,7 +38,13 @@ namespace Kyear.Graph
             {
                 foreach (BaseEdgeData edgeData in nodeData.edges)
                 {
-                    
+                    Node startNode = m_nodeDic[nodeData.id];
+                    Port startPort = (Port)startNode.outputContainer.Children().ToArray()[edgeData.startPortIdx];
+                    Node endNode = m_nodeDic[edgeData.target];
+                    Port endPort = (Port)endNode.inputContainer.Children().ToArray()[edgeData.endPortIdx];
+                    Edge edge = startPort.ConnectTo(endPort);
+                    AddElement(edge);
+                    startNode.RefreshPorts();
                 }
             }
         }
@@ -58,6 +65,7 @@ namespace Kyear.Graph
         private void AddNode(BaseGraphNode node)
         {
             AddElement(node);
+            m_nodeDic[node.ID] = node;
         }
     }
 }

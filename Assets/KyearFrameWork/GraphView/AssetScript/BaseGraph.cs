@@ -17,6 +17,7 @@ namespace Kyear.Graph
         private object m_currentFocusObject;
         
         protected BaseGraphAsset m_graphAsset = null;
+        protected Dictionary<string, BaseGraphNode> m_nodeDic = new Dictionary<string, BaseGraphNode>();
 
         public void SetParentWindow(EditorWindow window)
         {
