@@ -41,29 +41,92 @@ namespace Kyear.Graph
         /// 生成新节点
         /// </summary>
         /// <param name="position"></param>
-        public virtual void CreateData(Vector2 position)
-        {
-            BaseGraphNodeData data = new BaseGraphNodeData()
-            {
-                id = Guid.NewGuid().ToString(),
-                position = position,
-            };
-            Debug.Log($"创建节点:{data.id}");
-            Init(data);
-        }
+        public abstract void CreateData(Vector2 position);
         
         public virtual void Draw_InputContainer()
         {
+            for (int i = 0; i < data.inputPorts.Count; i++)
+            {
+                AddPort(data.inputPorts[i],PortType.Input);
+            }
         }
 
         public virtual void Draw_OutputContainer()
         {
-            
+            for (int i = 0; i < data.outputPorts.Count; i++)
+            {
+                AddPort(data.inputPorts[i],PortType.Output);
+            }
         }
 
         public virtual void Draw_ExtensionContainer()
         {
             extensionContainer.AddToClassList("kyear-node__extension-container");
         }
+
+        #region 端口
+        public enum PortType
+        {
+            Output,
+            Input
+        }
+
+        protected virtual void AddPort(BasePortData data,PortType type)
+        {
+            var direction = type == PortType.Input ? Direction.Input : Direction.Output;
+            var container = type == PortType.Input ? inputContainer : outputContainer;
+            var port = Port.Create<Edge>(Orientation.Horizontal, direction, Port.Capacity.Single, typeof(Port));
+            port.name = data.name;
+            port.userData = data;
+            container.Add(port);
+        }
+
+        public int GetPortDataID(Port port)
+        {
+            var protData = port.userData as BasePortData;
+            if (protData == null)
+            {
+                Debug.LogError("[KyearGraphError]  节点字典内没有port");
+                return -1;
+            }
+            
+            for (int i = 0; i < data.inputPorts.Count; i++)
+            {
+                if (data.inputPorts[i] == protData)
+                    return i;
+            }
+            for (int i = 0; i < data.outputPorts.Count; i++)
+            {
+                if (data.inputPorts[i] == protData)
+                    return i;
+            }
+            Debug.LogError("[KyearGraphError]  节点数据内没有port");
+            return -1;
+        }
+
+        #endregion
+
+        #region 边
+
+        public void AddEdge(Edge edge)
+        {
+            var sourcePort = edge.output;
+            var destPort = edge.input;
+            BaseGraphNode destNode = destPort.node as BaseGraphNode;
+            if (destNode == null)
+            {
+                Debug.LogError("[KyearGraphError]  目标节点不是BaseGraphNode");
+                return;
+            }
+            var edgeData = new BaseEdgeData()
+            {
+                startPortIdx = GetPortDataID(sourcePort),
+                endPortIdx = destNode.GetPortDataID(destPort),
+                target = destNode.ID
+            };
+            data.edges.Add(edgeData);
+        }
+
+        #endregion
     }
 }

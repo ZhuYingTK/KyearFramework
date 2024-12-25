@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
@@ -8,18 +9,27 @@ namespace Kyear.Graph
 {
     public class DialogNode : BaseGraphNode
     {
+        public override void Draw_InputContainer()
+        {
+            base.Draw_InputContainer();
+        }
+        
         public override void Draw_OutputContainer()
         {
-            var inputPort = Port.Create<Edge>(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(Port));
-            inputContainer.Add(inputPort);
             base.Draw_OutputContainer();
         }
 
-        public override void Draw_InputContainer()
+        public override void CreateData(Vector2 position)
         {
-            var outputPort = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(Port));
-            outputContainer.Add(outputPort);
-            base.Draw_InputContainer();
+            DialogNodeData data = new DialogNodeData()
+            {
+                id = Guid.NewGuid().ToString(),
+                position = position,
+                inputPorts = new List<BasePortData>(){new BasePortData(){name = "输入"}},
+                outputPorts = new List<BasePortData>(){new BasePortData(){name = "输出"}},
+            };
+            Debug.Log($"[KyearGraphError]  创建节点:{data.id}");
+            Init(data);
         }
 
         public override void Draw_ExtensionContainer()

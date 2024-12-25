@@ -13,16 +13,28 @@ namespace Kyear.Graph
         //支持BaseGraphNode扩展
         [SerializeReference]
         public List<BaseGraphNodeData> nodeDataList = new List<BaseGraphNodeData>()
+        { };
+
+        #region 添加节点
+
+        /// <summary>
+        /// 添加节点
+        /// </summary>
+        /// <param name="nodeData"></param>
+        public void AddNode(BaseGraphNodeData nodeData)
         {
-            new DialogNodeData()
-            {
-                position = new Vector2(1,1)
-            },
-            new DialogNodeData()
-            {
-                position = new Vector2(6,6)
-            }
-        };
+            if(nodeDataList.Exists(e => e.id == nodeData.id))
+                return;
+            nodeDataList.Add(nodeData);
+        }
+
+        public void AddNode(BaseGraphNode node)
+        {
+            nodeDataList.Add(node.data);
+        }
+
+        #endregion
+
         
         /// <summary>
         /// 需要更新持久化数据时调用

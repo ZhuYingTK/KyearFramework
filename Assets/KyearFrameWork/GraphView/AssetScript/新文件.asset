@@ -13,27 +13,7 @@ MonoBehaviour:
   m_Name: "\u65B0\u6587\u4EF6"
   m_EditorClassIdentifier: 
   guid: 5550b335a93a0ca4aac4aeb34a988494
-  nodeDataList:
-  - rid: 7789402720893927426
-  - rid: 7789402720893927427
+  nodeDataList: []
   references:
     version: 2
-    RefIds:
-    - rid: 7789402720893927426
-      type: {class: DialogNodeData, ns: Kyear.Graph, asm: Assembly-CSharp}
-      data:
-        position: {x: 1, y: 1}
-        id: 
-        inputPorts: []
-        outputPorts: []
-        edges: []
-        content: 
-    - rid: 7789402720893927427
-      type: {class: DialogNodeData, ns: Kyear.Graph, asm: Assembly-CSharp}
-      data:
-        position: {x: 6, y: 6}
-        id: 
-        inputPorts: []
-        outputPorts: []
-        edges: []
-        content: 
+    RefIds: []

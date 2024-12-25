@@ -11,6 +11,8 @@ namespace Kyear.Graph
         public new class UxmlFactory : UxmlFactory<BaseGraph, UxmlTraits> { }
 
         private EditorWindow parentWindow;
+        private BaseSearchWindow searchWindow;
+        
         //当前聚焦对象
         private object m_currentFocusObject;
         
@@ -27,9 +29,7 @@ namespace Kyear.Graph
             Load();
             AddManipulators();
             AddStyles();
-            nodeCreationRequest += context =>
-            {
-            };
+            AddSearchWindow();
             RegisterCallback<PointerDownEvent>(OnPointerDown);
             graphViewChanged += OnGraphViewChanged;
         }
@@ -46,8 +46,14 @@ namespace Kyear.Graph
             {
                 foreach (Edge edge in graphViewChange.edgesToCreate)
                 {
-                    var sourcePort = edge.input;
-                    var destPort = edge.output;
+                    var sourcePort = edge.output;
+                    BaseGraphNode sourceNode = sourcePort.node as BaseGraphNode;
+                    if (sourceNode == null)
+                    {
+                        Debug.LogError("[KyearGraphError]  起源节点不是BaseGraphNode");
+                        continue;
+                    }
+                    sourceNode.AddEdge(edge);
                 }
             }
             return graphViewChange;
@@ -65,6 +71,7 @@ namespace Kyear.Graph
             // 添加框选功能
             this.AddManipulator(new RectangleSelector());
         }
+        
 
         private void AddStyles()
         {
@@ -101,6 +108,18 @@ namespace Kyear.Graph
             localPosition /= scale;
 
             return localPosition;
+        }
+        
+        private void AddSearchWindow()
+        {
+            if (searchWindow == null)
+            {
+                searchWindow = ScriptableObject.CreateInstance<BaseSearchWindow>();
+            }
+
+            searchWindow.Initialize(this);
+
+            nodeCreationRequest = context => SearchWindow.Open(new SearchWindowContext(context.screenMousePosition), searchWindow);
         }
         
         /// <summary>

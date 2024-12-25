@@ -24,9 +24,9 @@ namespace Kyear.Graph
     {
         [SerializeField] public Vector2 position = Vector2.zero;
         [SerializeField] public string id = null;
-        [SerializeReference] public List<BasePortData> inputPorts;
-        [SerializeReference] public List<BasePortData> outputPorts;
-        [SerializeReference] public List<BaseEdgeData> edges;
+        [SerializeReference] public List<BasePortData> inputPorts = new List<BasePortData>();
+        [SerializeReference] public List<BasePortData> outputPorts = new List<BasePortData>();
+        [SerializeReference] public List<BaseEdgeData> edges = new List<BaseEdgeData>();
 
         public virtual Type GetTargetType()
         {

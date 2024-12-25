@@ -31,6 +31,15 @@ namespace Kyear.Graph
                 node.Init(nodeData);
                 AddNode(node);
             }
+
+            //加载边
+            foreach (BaseGraphNodeData nodeData in m_graphAsset.nodeDataList)
+            {
+                foreach (BaseEdgeData edgeData in nodeData.edges)
+                {
+                    
+                }
+            }
         }
 
         /// <summary>
@@ -41,9 +50,11 @@ namespace Kyear.Graph
         {
             BaseGraphNode node = (BaseGraphNode)Activator.CreateInstance(nodeType);
             node.CreateData(position);
+            m_graphAsset.AddNode(node);
+            AddNode(node);
             return node;
         }
-        ///添加节点
+        ///视图内添加节点
         private void AddNode(BaseGraphNode node)
         {
             AddElement(node);
