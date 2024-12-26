@@ -8,10 +8,10 @@ namespace Kyear.Graph
     [CreateAssetMenu(menuName = "测试脚本/Kyear", fileName = "新文件", order = 81)]
     public class BaseGraphAsset : ScriptableObject
     {
-        [HideInInspector]
+        [ReadOnly]
         public string guid = default;
         //支持BaseGraphNode扩展
-        [SerializeReference]
+        [SerializeReference][ReadOnly]
         public List<BaseGraphNodeData> nodeDataList = new List<BaseGraphNodeData>()
         { };
 

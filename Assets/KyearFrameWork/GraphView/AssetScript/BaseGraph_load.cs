@@ -19,6 +19,7 @@ namespace Kyear.Graph
                 }
             }
             m_graphAsset?.MarkDirty();
+            Debug.Log("<color=green>[KyearGraphError]  已保存</color>");
         }
         /// <summary>
         /// 加载
@@ -29,7 +30,7 @@ namespace Kyear.Graph
             foreach (BaseGraphNodeData nodeData in m_graphAsset.nodeDataList)
             {
                 BaseGraphNode node = (BaseGraphNode)Activator.CreateInstance(nodeData.GetTargetType());
-                node.Init(nodeData);
+                node.Init(nodeData,this);
                 AddNode(node);
             }
 
@@ -56,7 +57,7 @@ namespace Kyear.Graph
         public BaseGraphNode CreateNode(Type nodeType,Vector2 position)
         {
             BaseGraphNode node = (BaseGraphNode)Activator.CreateInstance(nodeType);
-            node.CreateData(position);
+            node.CreateData(position,this);
             m_graphAsset.AddNode(node);
             AddNode(node);
             return node;

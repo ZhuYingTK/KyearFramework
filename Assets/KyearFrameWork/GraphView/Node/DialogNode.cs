@@ -19,7 +19,7 @@ namespace Kyear.Graph
             base.Draw_OutputContainer();
         }
 
-        public override void CreateData(Vector2 position)
+        public override void CreateData(Vector2 position,BaseGraph parent)
         {
             DialogNodeData data = new DialogNodeData()
             {
@@ -29,7 +29,7 @@ namespace Kyear.Graph
                 outputPorts = new List<BasePortData>(){new BasePortData(){name = "输出",ID = GeneratePortID(PortType.Input)}},
             };
             Debug.Log($"[KyearGraphError]  创建节点:{data.id}");
-            Init(data);
+            Init(data,parent);
         }
 
         public override void Draw_ExtensionContainer()
@@ -45,8 +45,9 @@ namespace Kyear.Graph
             };
 
             TextField textTextField = new TextField(){
-                value = "value",
+                value = "value"
             };
+            textTextField.RegisterCallback<FocusOutEvent>(e => Save());
             textTextField.multiline = true;
             textTextField.AddToClassList("kyear-node__text-field");
             textTextField.AddToClassList("kyear-node__quote-text-field");

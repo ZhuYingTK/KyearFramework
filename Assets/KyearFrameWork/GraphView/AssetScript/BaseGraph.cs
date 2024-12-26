@@ -13,9 +13,6 @@ namespace Kyear.Graph
         private EditorWindow parentWindow;
         private BaseSearchWindow searchWindow;
         
-        //当前聚焦对象
-        private object m_currentFocusObject;
-        
         protected BaseGraphAsset m_graphAsset = null;
         protected Dictionary<string, BaseGraphNode> m_nodeDic = new Dictionary<string, BaseGraphNode>();
 
@@ -31,7 +28,6 @@ namespace Kyear.Graph
             AddManipulators();
             AddStyles();
             AddSearchWindow();
-            RegisterCallback<PointerDownEvent>(OnPointerDown);
             graphViewChanged += OnGraphViewChanged;
         }
 
@@ -57,6 +53,8 @@ namespace Kyear.Graph
                     sourceNode.AddEdge(edge);
                 }
             }
+            
+            m_graphAsset.MarkDirty();
             return graphViewChange;
         }
 
@@ -85,15 +83,6 @@ namespace Kyear.Graph
                 styleSheets.Add(nodeStyleSheet);
             // 添加背景网格
             Insert(0, new GridBackground());
-        }
-
-        private void OnPointerDown(PointerDownEvent evt)
-        {
-            if (evt.target != m_currentFocusObject)
-            {
-                Save();
-                m_currentFocusObject = evt.target;
-            }
         }
 
         public Vector2 GetLocalMousePosition(Vector2 screenPosition)

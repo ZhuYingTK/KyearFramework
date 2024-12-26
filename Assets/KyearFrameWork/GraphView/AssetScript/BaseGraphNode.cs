@@ -11,6 +11,7 @@ namespace Kyear.Graph
     {
         public string ID => data?.id;
         public BaseGraphNodeData data;
+        public BaseGraph parent;
         public BaseGraphNode()
         {
             title = "Sample";
@@ -21,9 +22,10 @@ namespace Kyear.Graph
             data.position = GetPosition().position;
         }
         
-        public virtual void Init(BaseGraphNodeData data)
+        public virtual void Init(BaseGraphNodeData data,BaseGraph parent)
         {
             this.data = data;
+            this.parent = parent;
             SetPosition(new Rect(this.data.position,Vector2.zero));
             //给每个Node都赋予唯一ID
             mainContainer.style.backgroundColor = new Color(29f / 255f, 29f / 255f, 30f / 255f);
@@ -35,13 +37,14 @@ namespace Kyear.Graph
             //刷新状态，保证UI刷新
             RefreshExpandedState();
             RefreshPorts();
+            RegisterCallback<BlurEvent>(e => Save());
         }
 
         /// <summary>
         /// 生成新节点
         /// </summary>
         /// <param name="position"></param>
-        public abstract void CreateData(Vector2 position);
+        public abstract void CreateData(Vector2 position,BaseGraph parent);
         
         public virtual void Draw_InputContainer()
         {
