@@ -28,7 +28,18 @@ namespace Kyear.Graph
             AddManipulators();
             AddStyles();
             AddSearchWindow();
+
+            deleteSelection += OnDeleteSelection;
             graphViewChanged += OnGraphViewChanged;
+        }
+
+        /// <summary>
+        /// 响应删除元素
+        /// </summary>
+        /// <param name="operationname"></param>
+        /// <param name="askuser"></param>
+        private void OnDeleteSelection(string operationname, AskUser askuser)
+        {
         }
 
         /// <summary>
@@ -57,6 +68,7 @@ namespace Kyear.Graph
             m_graphAsset.MarkDirty();
             return graphViewChange;
         }
+        
 
         private void AddManipulators()
         {
