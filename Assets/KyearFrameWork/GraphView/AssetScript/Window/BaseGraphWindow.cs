@@ -110,6 +110,12 @@ namespace Kyear.Graph
 
             return false;
         }
+
+        private void OnDisable()
+        {
+            m_graph.Save();
+        }
+
         /// <summary>
         /// 初始化
         /// </summary>
