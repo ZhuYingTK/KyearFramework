@@ -28,11 +28,9 @@ namespace Kyear.Graph
             AddManipulators();
             AddStyles();
             AddSearchWindow();
-
             deleteSelection += OnDeleteSelection;
             graphViewChanged += OnGraphViewChanged;
         }
-
         /// <summary>
         /// 响应删除元素
         /// </summary>
@@ -40,6 +38,49 @@ namespace Kyear.Graph
         /// <param name="askuser"></param>
         private void OnDeleteSelection(string operationname, AskUser askuser)
         {
+            List<BaseGraphNode> nodeToDelete = new List<BaseGraphNode>();
+            List<Edge> edgeToDelete = new List<Edge>();
+            foreach (GraphElement graphElement in selection)
+            {
+                switch (graphElement)
+                {
+                    case BaseGraphNode:
+                    {
+                        nodeToDelete.Add((BaseGraphNode)graphElement);
+                        continue;
+                    }
+                    case Edge:
+                    {
+                        edgeToDelete.Add((Edge)graphElement);
+                        continue;
+                    }
+                }
+            }
+
+            //删除边
+            //只要删除存储该边的数据即可
+            foreach (Edge edge in edgeToDelete)
+            {
+                edge.RemoveData();
+            }
+            //要调用这个方法，会自动做一些事情
+            DeleteElements(edgeToDelete);
+
+            foreach (BaseGraphNode node in nodeToDelete)
+            {
+                //删除所有输入的边数据
+                foreach (Edge inPutEdge in node.GetAllInPutEdges())
+                {
+                    inPutEdge.RemoveData();
+                }
+                //由于数据的边数据就存在当前节点上，所以不用删
+                DeleteElements(node.GetAllInPutEdges());
+                DeleteElements(node.GetAllOutPutEdges());
+                m_graphAsset.nodeDataList.Remove(node.data);
+            }
+            DeleteElements(nodeToDelete);
+            
+            Save();
         }
 
         /// <summary>
@@ -65,11 +106,21 @@ namespace Kyear.Graph
                 }
             }
             
+            if (graphViewChange.elementsToRemove != null)
+            {
+                foreach (GraphElement element in graphViewChange.elementsToRemove)
+                {
+                    if (element is Edge edge)
+                    {
+                        edge.RemoveData();
+                    }
+                }
+            }
+            
             m_graphAsset.MarkDirty();
             return graphViewChange;
         }
         
-
         private void AddManipulators()
         {
             // 开启Graph缩放

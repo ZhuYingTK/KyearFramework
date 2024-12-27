@@ -4,6 +4,7 @@ using System.Text;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditor.Callbacks;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Object = UnityEngine.Object;
@@ -15,10 +16,14 @@ namespace Kyear.Graph
         //当前窗口资源
         [SerializeReference]
         private BaseGraphAsset m_asset;
+
+        private BaseGraph m_graph;
         public string selectedGuid
         {
             get { return m_asset?.guid; }
         }
+
+        private bool isWindowFocused = false;
 
         /// <summary>
         /// 更新Title
@@ -67,7 +72,23 @@ namespace Kyear.Graph
             var rootSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/KyearFramework/GraphView/Resources/KyearVariableStyles.uss");
             root.styleSheets.Add(rootSheet);
         }
-        
+
+        /// <summary>
+        /// 焦点响应
+        /// </summary>
+        public void OnFocus()
+        {
+            
+        }
+
+        /// <summary>
+        /// 失去焦点
+        /// </summary>
+        public void OnLostFocus()
+        {
+            
+        }
+
         [OnOpenAsset(1)]
         private static bool OnOpenAssets(int id, int line)
         {
@@ -110,6 +131,7 @@ namespace Kyear.Graph
                 var graph = rootVisualElement.Q<BaseGraph>("Graph");
                 graph.SetParentWindow(this);
                 graph.Init(m_asset);
+                m_graph = graph;
                 string graphName = Path.GetFileNameWithoutExtension(path);
                 UpdateTitle();
                 Repaint();

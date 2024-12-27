@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -135,8 +136,21 @@ namespace Kyear.Graph
                 endPortID = destNode.GetPortDataID(destPort),
                 target = destNode.ID
             };
+            edge.userData = edgeData;
             data.edges.Add(edgeData);
         }
+        
+        public List<Edge> GetAllInPutEdges()
+        {
+            return inputPortDic.Values.SelectMany(e => e.connections.ToList()).ToList();
+        }
+
+        public List<Edge> GetAllOutPutEdges()
+        {
+            return outputPortDic.Values.SelectMany(e => e.connections.ToList()).ToList();
+        }
+        
+
 
         #endregion
     }

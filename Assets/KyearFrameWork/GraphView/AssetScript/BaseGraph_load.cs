@@ -44,6 +44,7 @@ namespace Kyear.Graph
                     BaseGraphNode endNode = m_nodeDic[edgeData.target];
                     Port endPort = endNode.inputPortDic[edgeData.endPortID];
                     Edge edge = startPort.ConnectTo(endPort);
+                    edge.userData = edgeData;
                     AddElement(edge);
                     startNode.RefreshPorts();
                 }
