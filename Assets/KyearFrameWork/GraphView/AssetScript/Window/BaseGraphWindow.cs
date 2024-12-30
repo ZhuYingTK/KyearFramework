@@ -11,14 +11,25 @@ using Object = UnityEngine.Object;
 
 namespace Kyear.Graph
 {
-    public class BaseGraphWindow : EditorWindow
+    public class AbstractGraphWindow : EditorWindow
+    {
+        public virtual string selectedGuid { get; }
+        public virtual void UpdateTitle(){}
+        public virtual void AssetWasDeleted(){}
+        public virtual void CheckForChanges(){}
+        public virtual void Init(BaseGraphAsset asset){}
+    }
+    [AssetWindowMapping(typeof(BaseGraphAsset))]
+    public class BaseGraphWindow<TGraph,TGraphAsset> : AbstractGraphWindow
+    where TGraph : BaseGraph<TGraphAsset,BaseGraphNode>
+    where TGraphAsset : BaseGraphAsset
     {
         //当前窗口资源
         [SerializeReference]
-        private BaseGraphAsset m_asset;
+        private TGraphAsset m_asset;
 
-        private BaseGraph m_graph;
-        public string selectedGuid
+        private TGraph m_graph;
+        public override string selectedGuid
         {
             get { return m_asset?.guid; }
         }
@@ -28,7 +39,7 @@ namespace Kyear.Graph
         /// <summary>
         /// 更新Title
         /// </summary>
-        public void UpdateTitle()
+        public override void UpdateTitle()
         {
             string assetPath = AssetDatabase.GUIDToAssetPath(selectedGuid);
             string assetName = Path.GetFileNameWithoutExtension(assetPath);
@@ -45,7 +56,7 @@ namespace Kyear.Graph
         /// <summary>
         /// 检查更新
         /// </summary>
-        public void CheckForChanges()
+        public override void CheckForChanges()
         {
             
         }
@@ -53,7 +64,7 @@ namespace Kyear.Graph
         /// <summary>
         /// 有资源被删除
         /// </summary>
-        public void AssetWasDeleted()
+        public override void AssetWasDeleted()
         {
             Close();
         }
@@ -89,28 +100,6 @@ namespace Kyear.Graph
             
         }
 
-        [OnOpenAsset(1)]
-        private static bool OnOpenAssets(int id, int line)
-        {
-            if (EditorUtility.InstanceIDToObject(id) is BaseGraphAsset asset)
-            {
-                foreach (var w in Resources.FindObjectsOfTypeAll<BaseGraphWindow>())
-                {
-                    if (w.selectedGuid == asset.guid)
-                    {
-                        w.Focus();
-                        return true;
-                    }
-                }
-                var window = CreateWindow<BaseGraphWindow>(typeof(BaseGraphWindow), typeof(SceneView));
-                window.Init(asset);
-                window.Focus();
-                return true;
-            }
-
-            return false;
-        }
-
         private void OnDisable()
         {
             m_graph.Save();
@@ -120,7 +109,7 @@ namespace Kyear.Graph
         /// 初始化
         /// </summary>
         /// <param name="assetGuid"></param>
-        private void Init(BaseGraphAsset asset)
+        public override void Init(BaseGraphAsset asset)
         {
             try
             {
@@ -133,8 +122,8 @@ namespace Kyear.Graph
                 if (selectedGuid != null && selectedGuid == asset.guid)
                     return;
                 var path = AssetDatabase.GetAssetPath(asset);
-                m_asset = asset;
-                var graph = rootVisualElement.Q<BaseGraph>("Graph");
+                m_asset = asset as TGraphAsset;
+                var graph = rootVisualElement.Q<TGraph>("Graph");
                 graph.SetParentWindow(this);
                 graph.Init(m_asset);
                 m_graph = graph;

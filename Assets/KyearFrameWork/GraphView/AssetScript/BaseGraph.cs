@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
@@ -6,14 +7,21 @@ using UnityEngine.UIElements;
 
 namespace Kyear.Graph
 {
-    public partial class BaseGraph : GraphView
+    public interface IBaseGraph
     {
-        public new class UxmlFactory : UxmlFactory<BaseGraph, UxmlTraits> { }
+        public Vector2 GetLocalMousePosition(Vector2 screenPosition);
+        public BaseGraphNode CreateNode(Type nodeType, Vector2 position);
+    }
+    public partial class BaseGraph<TGraphAsset,TRootNode> : GraphView,IBaseGraph
+    where TGraphAsset : BaseGraphAsset
+    where TRootNode : BaseGraphNode
+    {
+        public new class UxmlFactory : UxmlFactory<BaseGraph<TGraphAsset,TRootNode>, UxmlTraits> { }
 
         private EditorWindow parentWindow;
         private BaseSearchWindow searchWindow;
         
-        protected BaseGraphAsset m_graphAsset = null;
+        protected TGraphAsset MGraphGraphAsset = null;
         protected Dictionary<string, BaseGraphNode> m_nodeDic = new Dictionary<string, BaseGraphNode>();
 
         public void SetParentWindow(EditorWindow window)
@@ -21,9 +29,9 @@ namespace Kyear.Graph
             parentWindow = window;
         }
         
-        public void Init(BaseGraphAsset asset)
+        public void Init(TGraphAsset graphAsset)
         {
-            m_graphAsset = asset;
+            MGraphGraphAsset = graphAsset;
             Load();
             AddManipulators();
             AddStyles();
@@ -76,7 +84,7 @@ namespace Kyear.Graph
                 //由于数据的边数据就存在当前节点上，所以不用删
                 DeleteElements(node.GetAllInPutEdges());
                 DeleteElements(node.GetAllOutPutEdges());
-                m_graphAsset.nodeDataList.Remove(node.data);
+                MGraphGraphAsset.nodeDataList.Remove(node.data);
             }
             DeleteElements(nodeToDelete);
             
@@ -117,7 +125,7 @@ namespace Kyear.Graph
                 }
             }
             
-            m_graphAsset.MarkDirty();
+            MGraphGraphAsset.MarkDirty();
             return graphViewChange;
         }
         

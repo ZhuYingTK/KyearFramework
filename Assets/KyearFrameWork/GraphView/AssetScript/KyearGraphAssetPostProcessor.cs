@@ -17,7 +17,7 @@ namespace Kyear.Graph
         static void UpdateAfterAssetChange(string[] newNames)
         {
             // This will change the title of the window.
-            BaseGraphWindow[] windows = Resources.FindObjectsOfTypeAll<BaseGraphWindow>();
+            AbstractGraphWindow[] windows = Resources.FindObjectsOfTypeAll<AbstractGraphWindow>();
             foreach (var matGraphEditWindow in windows)
             {
                 for (int i = 0; i < newNames.Length; ++i)
@@ -30,7 +30,7 @@ namespace Kyear.Graph
 
         static void DisplayDeletionDialog(string[] deletedAssets)
         {
-            BaseGraphWindow[] windows = Resources.FindObjectsOfTypeAll<BaseGraphWindow>();
+            AbstractGraphWindow[] windows = Resources.FindObjectsOfTypeAll<AbstractGraphWindow>();
             foreach (var matGraphEditWindow in windows)
             {
                 for (int i = 0; i < deletedAssets.Length; ++i)
@@ -68,10 +68,10 @@ namespace Kyear.Graph
                 .Select(LoadAndInitAsset)
                 .ToList();
 
-            BaseGraphWindow[] windows = null;
+            AbstractGraphWindow[] windows = null;
             if (changedGraphGuids.Count > 0)
             {
-                windows = Resources.FindObjectsOfTypeAll<BaseGraphWindow>();
+                windows = Resources.FindObjectsOfTypeAll<AbstractGraphWindow>();
                 foreach (var window in windows)
                 {
                     if (changedGraphGuids.Contains(window.selectedGuid))

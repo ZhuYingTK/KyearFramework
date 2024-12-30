@@ -8,9 +8,9 @@ namespace Kyear.Graph
 {
     public class BaseSearchWindow : ScriptableObject, ISearchWindowProvider
     {
-        private BaseGraph graphView;
+        private IBaseGraph graphView;
         private Texture2D indentationIcon;
-        public void Initialize(BaseGraph dsGraphView)
+        public void Initialize(IBaseGraph dsGraphView)
         {
             graphView = dsGraphView;
 

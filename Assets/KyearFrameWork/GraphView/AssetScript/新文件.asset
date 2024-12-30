@@ -14,71 +14,57 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guid: 5550b335a93a0ca4aac4aeb34a988494
   nodeDataList:
-  - rid: 7789402720893927470
-  - rid: 7789402720893927473
+  - rid: 7789402720893927532
+  - rid: 7789402720893927552
   references:
     version: 2
     RefIds:
-    - rid: 7789402720893927470
+    - rid: 7789402720893927532
       type: {class: DialogNodeData, ns: Kyear.Graph, asm: Assembly-CSharp}
       data:
-        position: {x: 217, y: 173}
-        id: 065ceb4d-014c-453a-9543-cfe946b06b8d
+        position: {x: 463, y: 151}
+        id: 47c081e2-843b-47cc-95fe-f3870a0511d5
         inputPorts:
-        - rid: 7789402720893927471
+        - rid: 7789402720893927533
         outputPorts:
-        - rid: 7789402720893927472
+        - rid: 7789402720893927534
         edges:
-        - rid: 7789402720893927476
-        - rid: 7789402720893927477
-        - rid: 7789402720893927478
+        - rid: 7789402720893927555
         content: 
-    - rid: 7789402720893927471
+    - rid: 7789402720893927533
       type: {class: BasePortData, ns: Kyear.Graph, asm: Assembly-CSharp}
       data:
         name: "\u8F93\u5165"
         ID: 1
-    - rid: 7789402720893927472
+    - rid: 7789402720893927534
       type: {class: BasePortData, ns: Kyear.Graph, asm: Assembly-CSharp}
       data:
         name: "\u8F93\u51FA"
         ID: 1
-    - rid: 7789402720893927473
+    - rid: 7789402720893927552
       type: {class: DialogNodeData, ns: Kyear.Graph, asm: Assembly-CSharp}
       data:
-        position: {x: 564, y: 150}
-        id: db37e1c8-76dc-4431-baa7-17b3fcbf524d
+        position: {x: 817, y: 37}
+        id: 0cafde90-a83b-43a2-822a-4446b9ff5f79
         inputPorts:
-        - rid: 7789402720893927474
+        - rid: 7789402720893927553
         outputPorts:
-        - rid: 7789402720893927475
+        - rid: 7789402720893927554
         edges: []
         content: 
-    - rid: 7789402720893927474
+    - rid: 7789402720893927553
       type: {class: BasePortData, ns: Kyear.Graph, asm: Assembly-CSharp}
       data:
         name: "\u8F93\u5165"
         ID: 1
-    - rid: 7789402720893927475
+    - rid: 7789402720893927554
       type: {class: BasePortData, ns: Kyear.Graph, asm: Assembly-CSharp}
       data:
         name: "\u8F93\u51FA"
         ID: 1
-    - rid: 7789402720893927476
+    - rid: 7789402720893927555
       type: {class: BaseEdgeData, ns: Kyear.Graph, asm: Assembly-CSharp}
       data:
-        target: db37e1c8-76dc-4431-baa7-17b3fcbf524d
-        startPortID: 1
-        endPortID: 1
-    - rid: 7789402720893927477
-      type: {class: BaseEdgeData, ns: Kyear.Graph, asm: Assembly-CSharp}
-      data:
-        target: db37e1c8-76dc-4431-baa7-17b3fcbf524d
-        startPortID: 1
-        endPortID: 1
-    - rid: 7789402720893927478
-      type: {class: BaseEdgeData, ns: Kyear.Graph, asm: Assembly-CSharp}
-      data:
-        target: db37e1c8-76dc-4431-baa7-17b3fcbf524d
+        target: 0cafde90-a83b-43a2-822a-4446b9ff5f79
         startPortID: 1
         endPortID: 1

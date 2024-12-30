@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Kyear.Graph
 {
-    public partial class BaseGraph
+    public partial class BaseGraph<TGraphAsset,TRootNode> : IBaseGraph
     {
         public void Save()
         {
@@ -18,7 +18,7 @@ namespace Kyear.Graph
                     baseGraphNode.Save();
                 }
             }
-            m_graphAsset?.MarkDirty();
+            MGraphGraphAsset?.MarkDirty();
             Debug.Log("<color=green>[KyearGraphError]  已保存</color>");
         }
         /// <summary>
@@ -27,7 +27,7 @@ namespace Kyear.Graph
         public void Load()
         {
             //加载节点
-            foreach (BaseGraphNodeData nodeData in m_graphAsset.nodeDataList)
+            foreach (BaseGraphNodeData nodeData in MGraphGraphAsset.nodeDataList)
             {
                 BaseGraphNode node = (BaseGraphNode)Activator.CreateInstance(nodeData.GetTargetType());
                 node.Init(nodeData,this);
@@ -35,7 +35,7 @@ namespace Kyear.Graph
             }
 
             //加载边
-            foreach (BaseGraphNodeData nodeData in m_graphAsset.nodeDataList)
+            foreach (BaseGraphNodeData nodeData in MGraphGraphAsset.nodeDataList)
             {
                 foreach (BaseEdgeData edgeData in nodeData.edges)
                 {
@@ -59,7 +59,7 @@ namespace Kyear.Graph
         {
             BaseGraphNode node = (BaseGraphNode)Activator.CreateInstance(nodeType);
             node.CreateData(position,this);
-            m_graphAsset.AddNode(node);
+            MGraphGraphAsset.AddNode(node);
             AddNode(node);
             return node;
         }
