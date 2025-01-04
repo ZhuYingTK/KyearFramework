@@ -7,9 +7,9 @@ using UnityEngine;
 
 namespace Kyear.Graph
 {
-    public partial class BaseGraph<TGraphAsset,TRootNode> : IBaseGraph
+    public partial class BaseGraph<TSearchWindow,TGraphAsset,TRootNode>: AbstractGraph
     {
-        public void Save()
+        public override void Save()
         {
             foreach (Node node in nodes)
             {
@@ -55,7 +55,7 @@ namespace Kyear.Graph
         /// 创建节点
         /// </summary>
         /// <returns></returns>
-        public BaseGraphNode CreateNode(Type nodeType,Vector2 position)
+        public override BaseGraphNode CreateNode(Type nodeType,Vector2 position)
         {
             BaseGraphNode node = (BaseGraphNode)Activator.CreateInstance(nodeType);
             node.CreateData(position,this);

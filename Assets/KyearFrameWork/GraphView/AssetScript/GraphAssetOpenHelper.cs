@@ -5,17 +5,6 @@ using UnityEngine;
 
 namespace Kyear.Graph
 {
-    [System.AttributeUsage(System.AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
-    public sealed class AssetWindowMappingAttribute : Attribute
-    {
-        public Type WindowType { get; }
-    
-        public AssetWindowMappingAttribute(Type windowType)
-        {
-            WindowType = windowType;
-        }
-    }
-    
     public class GraphAssetOpenHelper : EditorWindow
     {
         [OnOpenAsset(1)]
@@ -31,13 +20,27 @@ namespace Kyear.Graph
                         return true;
                     }
                 }
-                var window = CreateWindow<AbstractGraphWindow>(typeof(AbstractGraphWindow), typeof(SceneView));
-                window.Init(asset);
-                window.Focus();
+                CreateWindow(asset);
                 return true;
             }
 
             return false;
+        }
+
+        public static void CreateWindow(BaseGraphAsset asset)
+        {
+            AbstractGraphWindow window;
+            switch (asset)
+            {
+                case DialogAsset:
+                    window = CreateWindow<DialogWindow>(typeof(AbstractGraphWindow));
+                    break;
+                default:
+                    window = CreateWindow<AbstractGraphWindow>(typeof(AbstractGraphWindow));
+                    break;
+            }
+            window.Init(asset);
+            window.Focus();
         }
     }
 }

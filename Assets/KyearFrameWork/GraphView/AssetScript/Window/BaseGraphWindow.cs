@@ -19,9 +19,8 @@ namespace Kyear.Graph
         public virtual void CheckForChanges(){}
         public virtual void Init(BaseGraphAsset asset){}
     }
-    [AssetWindowMapping(typeof(BaseGraphAsset))]
     public class BaseGraphWindow<TGraph,TGraphAsset> : AbstractGraphWindow
-    where TGraph : BaseGraph<TGraphAsset,BaseGraphNode>
+    where TGraph : AbstractGraph,new()
     where TGraphAsset : BaseGraphAsset
     {
         //当前窗口资源
@@ -111,30 +110,36 @@ namespace Kyear.Graph
         /// <param name="assetGuid"></param>
         public override void Init(BaseGraphAsset asset)
         {
-            try
-            {
-                if (asset == null)
-                    return;
+            if (asset == null)
+                return;
 
-                if (!EditorUtility.IsPersistent(asset))
-                    return;
+            if (!EditorUtility.IsPersistent(asset))
+                return;
 
-                if (selectedGuid != null && selectedGuid == asset.guid)
-                    return;
-                var path = AssetDatabase.GetAssetPath(asset);
-                m_asset = asset as TGraphAsset;
-                var graph = rootVisualElement.Q<TGraph>("Graph");
-                graph.SetParentWindow(this);
-                graph.Init(m_asset);
-                m_graph = graph;
-                string graphName = Path.GetFileNameWithoutExtension(path);
-                UpdateTitle();
-                Repaint();
-            }
-            catch (Exception e)
-            {
-                Debug.LogError(e);
-            }
+            if (selectedGuid != null && selectedGuid == asset.guid)
+                return;
+            var path = AssetDatabase.GetAssetPath(asset);
+            m_asset = asset as TGraphAsset;
+            AbstractGraph oldGraph = rootVisualElement.Q<AbstractGraph>("Graph");
+            VisualElement parent = oldGraph.parent; // 获取父节点
+            int index = parent.IndexOf(oldGraph);   // 获取原来子元素的位置
+
+            // 从父节点移除旧图表
+            parent.Remove(oldGraph);
+
+            // 创建新的 TGraph 对象
+            TGraph graph = new TGraph();  // 假设 TGraph 有一个默认构造函数
+            graph.name = oldGraph.name;   // 如果需要保留旧对象的名字或其他属性
+            // 你可以复制其他属性或调用初始化方法来模仿原对象的状态
+            graph.style.flexGrow = 1;
+            // 将新对象插入到原来的位置
+            parent.Insert(index, graph);
+            graph.SetParentWindow(this);
+            graph.Init(m_asset);
+            m_graph = graph;
+            string graphName = Path.GetFileNameWithoutExtension(path);
+            UpdateTitle();
+            Repaint();
         }
     }
     

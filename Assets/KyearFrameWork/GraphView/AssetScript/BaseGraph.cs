@@ -7,31 +7,35 @@ using UnityEngine.UIElements;
 
 namespace Kyear.Graph
 {
-    public interface IBaseGraph
+    public class AbstractGraph : GraphView
     {
-        public Vector2 GetLocalMousePosition(Vector2 screenPosition);
-        public BaseGraphNode CreateNode(Type nodeType, Vector2 position);
+        public new class UxmlFactory : UxmlFactory<AbstractGraph, UxmlTraits> { }
+        public virtual Vector2 GetLocalMousePosition(Vector2 screenPosition){return Vector2.zero;}
+
+        public virtual BaseGraphNode CreateNode(Type nodeType, Vector2 position) { return null;}
+        public virtual void Save(){}
+        public virtual void SetParentWindow(EditorWindow window){}
+        public virtual void Init(BaseGraphAsset graphAsset){}
     }
-    public partial class BaseGraph<TGraphAsset,TRootNode> : GraphView,IBaseGraph
+    public partial class BaseGraph<TSearchWindow,TGraphAsset,TRootNode> : AbstractGraph
+    where TSearchWindow : BaseSearchWindow
     where TGraphAsset : BaseGraphAsset
     where TRootNode : BaseGraphNode
     {
-        public new class UxmlFactory : UxmlFactory<BaseGraph<TGraphAsset,TRootNode>, UxmlTraits> { }
-
         private EditorWindow parentWindow;
-        private BaseSearchWindow searchWindow;
+        private TSearchWindow searchWindow;
         
         protected TGraphAsset MGraphGraphAsset = null;
         protected Dictionary<string, BaseGraphNode> m_nodeDic = new Dictionary<string, BaseGraphNode>();
 
-        public void SetParentWindow(EditorWindow window)
+        public override void SetParentWindow(EditorWindow window)
         {
             parentWindow = window;
         }
         
-        public void Init(TGraphAsset graphAsset)
+        public override void Init(BaseGraphAsset graphAsset)
         {
-            MGraphGraphAsset = graphAsset;
+            MGraphGraphAsset = graphAsset as TGraphAsset;
             Load();
             AddManipulators();
             AddStyles();
@@ -156,7 +160,7 @@ namespace Kyear.Graph
             Insert(0, new GridBackground());
         }
 
-        public Vector2 GetLocalMousePosition(Vector2 screenPosition)
+        public override Vector2 GetLocalMousePosition(Vector2 screenPosition)
         {
             // 第一步：将屏幕坐标转换为 EditorWindow 坐标系
             Vector2 editorWindowPosition = screenPosition - parentWindow.position.position;
@@ -175,7 +179,7 @@ namespace Kyear.Graph
         {
             if (searchWindow == null)
             {
-                searchWindow = ScriptableObject.CreateInstance<BaseSearchWindow>();
+                searchWindow = ScriptableObject.CreateInstance<TSearchWindow>();
             }
 
             searchWindow.Initialize(this);

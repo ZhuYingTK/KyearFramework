@@ -3,7 +3,7 @@
     <ui:VisualElement focusable="true" style="flex-grow: 1; flex-wrap: nowrap; flex-direction: row; background-color: rgb(45, 45, 45);">
         <ui:VisualElement name="Right" focusable="true" style="flex-grow: 1; flex-direction: column;">
             <ui:Label tabindex="-1" text="节点编辑窗口" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Inspector" style="font-size: 18px; color: rgb(255, 255, 255); -unity-font-style: normal;" />
-            <Kyear.Graph.BaseGraph name="Graph" focusable="true" style="flex-grow: 1;" />
+            <Kyear.Graph.AbstractGraph name="Graph" style="height: auto; flex-grow: 1;" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

@@ -19,7 +19,7 @@ namespace Kyear.Graph
             base.Draw_OutputContainer();
         }
 
-        public override void CreateData(Vector2 position,IBaseGraph parent)
+        public override void CreateData(Vector2 position,AbstractGraph parent)
         {
             DialogNodeData data = new DialogNodeData()
             {

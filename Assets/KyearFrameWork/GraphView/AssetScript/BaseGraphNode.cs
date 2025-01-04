@@ -12,7 +12,7 @@ namespace Kyear.Graph
     {
         public string ID => data?.id;
         public BaseGraphNodeData data;
-        public IBaseGraph parent;
+        public AbstractGraph parent;
         public BaseGraphNode()
         {
             title = "Sample";
@@ -23,7 +23,7 @@ namespace Kyear.Graph
             data.position = GetPosition().position;
         }
         
-        public virtual void Init(BaseGraphNodeData data,IBaseGraph parent)
+        public virtual void Init(BaseGraphNodeData data,AbstractGraph parent)
         {
             this.data = data;
             this.parent = parent;
@@ -45,7 +45,7 @@ namespace Kyear.Graph
         /// 生成新节点
         /// </summary>
         /// <param name="position"></param>
-        public abstract void CreateData(Vector2 position,IBaseGraph parent);
+        public abstract void CreateData(Vector2 position,AbstractGraph parent);
         
         public virtual void Draw_InputContainer()
         {

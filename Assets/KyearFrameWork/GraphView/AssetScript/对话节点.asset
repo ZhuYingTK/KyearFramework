@@ -9,9 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 530e556d4407947dcae7102ff497587d, type: 3}
-  m_Name: New State Graph
+  m_Script: {fileID: 11500000, guid: b8e1ac426163f1147a70ca544ea93edb, type: 3}
+  m_Name: "\u5BF9\u8BDD\u8282\u70B9"
   m_EditorClassIdentifier: 
-  _data:
-    _json: '{"graph":{"title":null,"summary":null,"pan":{"x":1476.681,"y":-466.6167},"zoom":1.0,"elements":[],"$version":"A"}}'
-    _objectReferences: []
+  guid: c35978cf1123a82469d76db582fdb9ee
+  nodeDataList: []
+  references:
+    version: 2
+    RefIds: []

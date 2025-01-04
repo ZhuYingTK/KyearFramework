@@ -6,11 +6,11 @@ using UnityEngine;
 
 namespace Kyear.Graph
 {
-    public class BaseSearchWindow : ScriptableObject, ISearchWindowProvider
+    public abstract class BaseSearchWindow : ScriptableObject, ISearchWindowProvider
     {
-        private IBaseGraph graphView;
-        private Texture2D indentationIcon;
-        public void Initialize(IBaseGraph dsGraphView)
+        protected AbstractGraph graphView;
+        protected Texture2D indentationIcon;
+        public void Initialize(AbstractGraph dsGraphView)
         {
             graphView = dsGraphView;
 
@@ -19,19 +19,7 @@ namespace Kyear.Graph
             indentationIcon.Apply();
         }
         //创建搜索树
-        public List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context)
-        {
-            List<SearchTreeEntry> searchTreeEntries = new List<SearchTreeEntry>()
-            {
-                new SearchTreeGroupEntry(new GUIContent("创建节点")),
-                new SearchTreeEntry(new GUIContent("对话节点", indentationIcon))
-                {
-                    userData = typeof(DialogNode),
-                    level = 1
-                }
-            };
-            return searchTreeEntries;
-        }
+        public abstract List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context);
         
         //当选择元素
         public bool OnSelectEntry(SearchTreeEntry SearchTreeEntry, SearchWindowContext context)
