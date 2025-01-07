@@ -66,6 +66,8 @@ namespace Kyear.Graph
         public virtual void Draw_ExtensionContainer()
         {
             extensionContainer.AddToClassList("kyear-node__extension-container");
+            extensionContainer.style.flexDirection = FlexDirection.Column;
+            extensionContainer.style.flexShrink = 0;
         }
 
         #region 端口
@@ -153,5 +155,27 @@ namespace Kyear.Graph
 
 
         #endregion
+
+        #region 创建元素
+
+        public TextField CreateTextField(string label, string value = "", bool multiline = true, int labelWidth = -1)
+        {
+            TextField textTextField = new TextField()
+            {
+                label = label,
+                value = value
+            };
+            textTextField.RegisterCallback<FocusOutEvent>(e => Save());
+            textTextField.multiline = multiline;
+            textTextField.AddToClassList("kyear-node__text-field");
+            textTextField.AddToClassList("kyear-node__quote-text-field");
+            textTextField.labelElement.style.minWidth  = 0;
+            textTextField.labelElement.MarkDirtyRepaint();
+            textTextField.MarkDirtyRepaint();
+            return textTextField;
+        }
+
+        #endregion
+
     }
 }

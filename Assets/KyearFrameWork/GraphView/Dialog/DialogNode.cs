@@ -7,6 +7,17 @@ using UnityEngine.UIElements;
 
 namespace Kyear.Graph
 {
+    [Serializable]
+    public class DialogNodeData : BaseGraphNodeData
+    {
+        [SerializeField] public string content;
+
+        public override Type GetTargetType()
+        {
+            return typeof(DialogNode);
+        }
+    }
+    
     public class DialogNode : BaseGraphNode
     {
         public override void Draw_InputContainer()
@@ -36,24 +47,17 @@ namespace Kyear.Graph
         {
             VisualElement customDataContainer = new VisualElement();
             customDataContainer.AddToClassList("kyear-node__custom-data-container");
-
-
             Foldout textFoldout = new Foldout()
             {
                 text = "输入",
                 value = true
             };
 
-            TextField textTextField = new TextField(){
-                value = "value"
-            };
-            textTextField.RegisterCallback<FocusOutEvent>(e => Save());
-            textTextField.multiline = true;
-            textTextField.AddToClassList("kyear-node__text-field");
-            textTextField.AddToClassList("kyear-node__quote-text-field");
+            TextField textTextField = CreateTextField("对话");
+            TextField testTextField = CreateTextField("测试111");
             textFoldout.Add(textTextField);
-            
-            
+            textFoldout.Add(testTextField);
+            textFoldout.AlignmentTextLabel();
             customDataContainer.Add(textFoldout);
             extensionContainer.Add(customDataContainer);
             base.Draw_ExtensionContainer();

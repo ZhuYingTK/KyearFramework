@@ -34,15 +34,4 @@ namespace Kyear.Graph
             return typeof(BaseGraphNode);
         }
     }
-
-    [Serializable]
-    public class DialogNodeData : BaseGraphNodeData
-    {
-        [SerializeField] public string content;
-
-        public override Type GetTargetType()
-        {
-            return typeof(DialogNode);
-        }
-    }
 }

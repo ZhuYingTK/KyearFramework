@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Edge = UnityEditor.Experimental.GraphView.Edge;
@@ -43,6 +45,33 @@ namespace Kyear.Graph
                 startNode.data.edges.Remove(edgeData);
             }
         }
+
+        #region 排版
+
+        //对齐Text的Label
+        public static void AlignmentTextLabel(this Foldout @this)
+        {
+            @this.MarkDirtyRepaint();
+            @this.schedule.Execute(() =>
+            {
+                var texts = @this.Children().OfType<TextField>();
+                float maxwidth = -1;
+                foreach (var text in texts)
+                {
+                    if (maxwidth < text.labelElement.contentContainer.resolvedStyle.width)
+                    {
+                        maxwidth = text.labelElement.resolvedStyle.width;
+                    }
+                }
+
+                foreach (var text in texts)
+                {
+                    text.labelElement.style.minWidth = maxwidth;
+                }
+            });
+        }
+
+        #endregion
 
     }
 }
