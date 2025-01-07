@@ -59,7 +59,7 @@ namespace Kyear.Graph
         {
             for (int i = 0; i < data.outputPorts.Count; i++)
             {
-                AddPort(data.inputPorts[i],PortType.Output);
+                AddPort(data.outputPorts[i],PortType.Output);
             }
         }
 

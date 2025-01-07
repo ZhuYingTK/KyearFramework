@@ -21,6 +21,11 @@ namespace Kyear.Graph
                 {
                     userData = typeof(DialogNode),
                     level = 1
+                },
+                new SearchTreeEntry(new GUIContent("对话标题节点", indentationIcon))
+                {
+                    userData = typeof(DialogTitleNode),
+                    level = 1
                 }
             };
             return searchTreeEntries;

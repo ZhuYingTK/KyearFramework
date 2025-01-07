@@ -11,7 +11,7 @@ namespace Kyear.Graph
         [SerializeField] public string name;
         [SerializeField] public uint ID;
     }
-
+  
     [Serializable]
     public class BaseEdgeData
     {

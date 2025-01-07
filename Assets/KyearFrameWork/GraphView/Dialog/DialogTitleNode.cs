@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Kyear.Graph
 {
@@ -20,15 +21,23 @@ namespace Kyear.Graph
     {
         public override void CreateData(Vector2 position, AbstractGraph parent)
         {
-            DialogNodeData data = new DialogNodeData()
+            DialogTitleNodeData data = new DialogTitleNodeData()
             {
                 id = Guid.NewGuid().ToString(),
                 position = position,
-                inputPorts = new List<BasePortData>(){new BasePortData(){name = "输入",ID = GeneratePortID(PortType.Input)}},
                 outputPorts = new List<BasePortData>(){new BasePortData(){name = "输出",ID = GeneratePortID(PortType.Input)}},
             };
             Debug.Log($"[KyearGraphError]  创建节点:{data.id}");
             Init(data,parent);
+        }
+
+        public override void Draw_ExtensionContainer()
+        {
+            VisualElement customDataContainer = new VisualElement();
+            customDataContainer.AddToClassList("kyear-node__custom-data-container");
+            TextField textTextField = CreateTextField("标题");
+            extensionContainer.Add(textTextField);
+            base.Draw_ExtensionContainer();
         }
     }
 }
