@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -169,10 +170,22 @@ namespace Kyear.Graph
             textTextField.multiline = multiline;
             textTextField.AddToClassList("kyear-node__text-field");
             textTextField.AddToClassList("kyear-node__quote-text-field");
-            textTextField.labelElement.style.minWidth  = 0;
-            textTextField.labelElement.MarkDirtyRepaint();
+            textTextField.labelElement.SetToDefaultStyle();
             textTextField.MarkDirtyRepaint();
             return textTextField;
+        }
+
+        public ObjectField CreateTextureField(string label)
+        {
+            ObjectField textureField = new ObjectField()
+            {
+                label = label,
+                objectType = typeof(Texture)
+            };
+            textureField.RegisterCallback<FocusOutEvent>(e => Save());
+            textureField.labelElement.SetToDefaultStyle();
+            textureField.MarkDirtyRepaint();
+            return textureField;
         }
 
         #endregion

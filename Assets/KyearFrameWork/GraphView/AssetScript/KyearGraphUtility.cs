@@ -71,6 +71,14 @@ namespace Kyear.Graph
             });
         }
 
+        public static void SetToDefaultStyle(this Label @this)
+        {
+            @this.style.minWidth  = 0;
+            @this.MarkDirtyRepaint();
+            @this.style.fontSize = 14;
+            @this.style.unityFontStyleAndWeight = FontStyle.Bold;
+        }
+
         #endregion
 
     }

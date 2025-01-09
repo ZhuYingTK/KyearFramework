@@ -1,8 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
+using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UIElements;
 
 namespace Kyear.Graph
@@ -11,6 +11,7 @@ namespace Kyear.Graph
     public class DialogNodeData : BaseGraphNodeData
     {
         [SerializeField] public string content;
+        [SerializeField] public Texture texture;
 
         public override Type GetTargetType()
         {
@@ -53,10 +54,13 @@ namespace Kyear.Graph
                 value = true
             };
 
-            TextField textTextField = CreateTextField("对话");
-            TextField testTextField = CreateTextField("测试111");
+            TextField testTextField = CreateTextField("对话人");
+            TextField textTextField = CreateTextField("内容");
+            var textureField = CreateTextureField("图片");
+            
             textFoldout.Add(textTextField);
             textFoldout.Add(testTextField);
+            textFoldout.Add(textureField);
             textFoldout.AlignmentTextLabel();
             customDataContainer.Add(textFoldout);
             extensionContainer.Add(customDataContainer);
