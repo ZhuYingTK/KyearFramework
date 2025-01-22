@@ -17,8 +17,20 @@ namespace Kyear.Graph
         }
     }
 
-    public class DialogTitleNode : BaseGraphNode
+    public class DialogTitleNode : BaseGraphNode<DialogTitleNodeData>
     {
+        private TextField textTextField;
+        public override void Save()
+        {
+            data.content = textTextField.value;
+            base.Save();
+        }
+
+        public override void Init(BaseGraphNodeData data, AbstractGraph parent)
+        {
+            base.Init(data, parent);
+            textTextField.value = base.data.content;
+        }
         public override void CreateData(Vector2 position, AbstractGraph parent)
         {
             DialogTitleNodeData data = new DialogTitleNodeData()
@@ -35,7 +47,7 @@ namespace Kyear.Graph
         {
             VisualElement customDataContainer = new VisualElement();
             customDataContainer.AddToClassList("kyear-node__custom-data-container");
-            TextField textTextField = CreateTextField("标题");
+            textTextField = CreateTextField("标题");
             extensionContainer.Add(textTextField);
             base.Draw_ExtensionContainer();
         }

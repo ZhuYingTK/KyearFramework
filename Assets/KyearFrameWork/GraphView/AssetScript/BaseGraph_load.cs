@@ -13,7 +13,7 @@ namespace Kyear.Graph
         {
             foreach (Node node in nodes)
             {
-                if (node is BaseGraphNode baseGraphNode)
+                if (node is AbstractGraphNode baseGraphNode)
                 {
                     baseGraphNode.Save();
                 }
@@ -29,7 +29,7 @@ namespace Kyear.Graph
             //加载节点
             foreach (BaseGraphNodeData nodeData in MGraphGraphAsset.nodeDataList)
             {
-                BaseGraphNode node = (BaseGraphNode)Activator.CreateInstance(nodeData.GetTargetType());
+                AbstractGraphNode node = (AbstractGraphNode)Activator.CreateInstance(nodeData.GetTargetType());
                 node.Init(nodeData,this);
                 AddNode(node);
             }
@@ -39,9 +39,9 @@ namespace Kyear.Graph
             {
                 foreach (BaseEdgeData edgeData in nodeData.edges)
                 {
-                    BaseGraphNode startNode = m_nodeDic[nodeData.id];
+                    AbstractGraphNode startNode = m_nodeDic[nodeData.id];
                     Port startPort = startNode.outputPortDic[edgeData.startPortID];
-                    BaseGraphNode endNode = m_nodeDic[edgeData.target];
+                    AbstractGraphNode endNode = m_nodeDic[edgeData.target];
                     Port endPort = endNode.inputPortDic[edgeData.endPortID];
                     Edge edge = startPort.ConnectTo(endPort);
                     edge.userData = edgeData;
@@ -55,19 +55,19 @@ namespace Kyear.Graph
         /// 创建节点
         /// </summary>
         /// <returns></returns>
-        public override BaseGraphNode CreateNode(Type nodeType,Vector2 position)
+        public override AbstractGraphNode CreateNode(Type nodeType,Vector2 position)
         {
-            BaseGraphNode node = (BaseGraphNode)Activator.CreateInstance(nodeType);
+            AbstractGraphNode node = (AbstractGraphNode)Activator.CreateInstance(nodeType);
             node.CreateData(position,this);
             MGraphGraphAsset.AddNode(node);
             AddNode(node);
             return node;
         }
         ///视图内添加节点
-        private void AddNode(BaseGraphNode node)
+        private void AddNode(AbstractGraphNode node)
         {
             AddElement(node);
-            m_nodeDic[node.ID] = node;
+            m_nodeDic[node.GetID()] = node;
         }
     }
 }

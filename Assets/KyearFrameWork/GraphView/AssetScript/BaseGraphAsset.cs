@@ -27,9 +27,9 @@ namespace Kyear.Graph
             nodeDataList.Add(nodeData);
         }
 
-        public void AddNode(BaseGraphNode node)
+        public void AddNode(AbstractGraphNode node)
         {
-            AddNode(node.data);
+            AddNode(node.GetData());
         }
 
         #endregion

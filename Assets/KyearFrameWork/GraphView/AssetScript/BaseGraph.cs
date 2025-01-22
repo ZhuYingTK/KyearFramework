@@ -12,7 +12,7 @@ namespace Kyear.Graph
         public new class UxmlFactory : UxmlFactory<AbstractGraph, UxmlTraits> { }
         public virtual Vector2 GetLocalMousePosition(Vector2 screenPosition){return Vector2.zero;}
 
-        public virtual BaseGraphNode CreateNode(Type nodeType, Vector2 position) { return null;}
+        public virtual AbstractGraphNode CreateNode(Type nodeType, Vector2 position) { return null;}
         public virtual void Save(){}
         public virtual void SetParentWindow(EditorWindow window){}
         public virtual void Init(BaseGraphAsset graphAsset){}
@@ -20,13 +20,13 @@ namespace Kyear.Graph
     public partial class BaseGraph<TSearchWindow,TGraphAsset,TRootNode> : AbstractGraph
     where TSearchWindow : BaseSearchWindow
     where TGraphAsset : BaseGraphAsset
-    where TRootNode : BaseGraphNode
+    where TRootNode : AbstractGraphNode
     {
         private EditorWindow parentWindow;
         private TSearchWindow searchWindow;
         
         protected TGraphAsset MGraphGraphAsset = null;
-        protected Dictionary<string, BaseGraphNode> m_nodeDic = new Dictionary<string, BaseGraphNode>();
+        protected Dictionary<string, AbstractGraphNode> m_nodeDic = new Dictionary<string, AbstractGraphNode>();
 
         public override void SetParentWindow(EditorWindow window)
         {
@@ -50,15 +50,15 @@ namespace Kyear.Graph
         /// <param name="askuser"></param>
         private void OnDeleteSelection(string operationname, AskUser askuser)
         {
-            List<BaseGraphNode> nodeToDelete = new List<BaseGraphNode>();
+            List<AbstractGraphNode> nodeToDelete = new List<AbstractGraphNode>();
             List<Edge> edgeToDelete = new List<Edge>();
             foreach (GraphElement graphElement in selection)
             {
                 switch (graphElement)
                 {
-                    case BaseGraphNode:
+                    case AbstractGraphNode:
                     {
-                        nodeToDelete.Add((BaseGraphNode)graphElement);
+                        nodeToDelete.Add((AbstractGraphNode)graphElement);
                         continue;
                     }
                     case Edge:
@@ -78,7 +78,7 @@ namespace Kyear.Graph
             //要调用这个方法，会自动做一些事情
             DeleteElements(edgeToDelete);
 
-            foreach (BaseGraphNode node in nodeToDelete)
+            foreach (AbstractGraphNode node in nodeToDelete)
             {
                 //删除所有输入的边数据
                 foreach (Edge inPutEdge in node.GetAllInPutEdges())
@@ -88,7 +88,7 @@ namespace Kyear.Graph
                 //由于数据的边数据就存在当前节点上，所以不用删
                 DeleteElements(node.GetAllInPutEdges());
                 DeleteElements(node.GetAllOutPutEdges());
-                MGraphGraphAsset.nodeDataList.Remove(node.data);
+                MGraphGraphAsset.nodeDataList.Remove(node.GetData());
             }
             DeleteElements(nodeToDelete);
             
@@ -108,7 +108,7 @@ namespace Kyear.Graph
                 foreach (Edge edge in graphViewChange.edgesToCreate)
                 {
                     var sourcePort = edge.output;
-                    BaseGraphNode sourceNode = sourcePort.node as BaseGraphNode;
+                    AbstractGraphNode sourceNode = sourcePort.node as AbstractGraphNode;
                     if (sourceNode == null)
                     {
                         Debug.LogError("[KyearGraphError]  起源节点不是BaseGraphNode");

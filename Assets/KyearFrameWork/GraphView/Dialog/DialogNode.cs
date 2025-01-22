@@ -18,17 +18,21 @@ namespace Kyear.Graph
         }
     }
     
-    public class DialogNode : BaseGraphNode
+    public class DialogNode : BaseGraphNode<DialogNodeData>
     {
-        public override void Draw_InputContainer()
+        private TextField textTextField;
+        public override void Save()
         {
-            base.Draw_InputContainer();
+           data.content = textTextField.value;
+           base.Save();
         }
-        
-        public override void Draw_OutputContainer()
+
+        public override void Init(BaseGraphNodeData data, AbstractGraph parent)
         {
-            base.Draw_OutputContainer();
+            base.Init(data, parent);
+            textTextField.value = base.data.content;
         }
+
 
         public override void CreateData(Vector2 position,AbstractGraph parent)
         {
@@ -53,10 +57,8 @@ namespace Kyear.Graph
                 value = true
             };
 
-            TextField textTextField = CreateTextField("对话");
-            TextField testTextField = CreateTextField("测试111");
+            textTextField = CreateTextField("对话");
             textFoldout.Add(textTextField);
-            textFoldout.Add(testTextField);
             textFoldout.AlignmentTextLabel();
             customDataContainer.Add(textFoldout);
             extensionContainer.Add(customDataContainer);
