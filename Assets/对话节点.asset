@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8e1ac426163f1147a70ca544ea93edb, type: 3}
+  m_Name: "\u5BF9\u8BDD\u8282\u70B9"
+  m_EditorClassIdentifier: 
+  guid: c3ef44af0eba9e347836fedb084ce55d
+  nodeDataList:
+  - rid: 6588810650269253655
+  - rid: 6588810650269253657
+  references:
+    version: 2
+    RefIds:
+    - rid: 6588810650269253655
+      type: {class: DialogTitleNodeData, ns: Kyear.Graph, asm: Assembly-CSharp}
+      data:
+        position: {x: 1028, y: 510.6667}
+        id: e780a363-2eaa-44da-afd0-50d8b42c1973
+        inputPorts: []
+        outputPorts:
+        - rid: 6588810650269253656
+        edges:
+        - rid: 6588810650269253660
+        content: 111
+    - rid: 6588810650269253656
+      type: {class: BasePortData, ns: Kyear.Graph, asm: Assembly-CSharp}
+      data:
+        name: "\u8F93\u51FA"
+        ID: 1
+    - rid: 6588810650269253657
+      type: {class: DialogNodeData, ns: Kyear.Graph, asm: Assembly-CSharp}
+      data:
+        position: {x: 1430.6666, y: 544}
+        id: ef2417c0-9d31-4cbd-94b7-f3f940c174d7
+        inputPorts:
+        - rid: 6588810650269253658
+        outputPorts:
+        - rid: 6588810650269253659
+        edges: []
+        content: 222
+    - rid: 6588810650269253658
+      type: {class: BasePortData, ns: Kyear.Graph, asm: Assembly-CSharp}
+      data:
+        name: "\u8F93\u5165"
+        ID: 1
+    - rid: 6588810650269253659
+      type: {class: BasePortData, ns: Kyear.Graph, asm: Assembly-CSharp}
+      data:
+        name: "\u8F93\u51FA"
+        ID: 1
+    - rid: 6588810650269253660
+      type: {class: BaseEdgeData, ns: Kyear.Graph, asm: Assembly-CSharp}
+      data:
+        target: ef2417c0-9d31-4cbd-94b7-f3f940c174d7
+        startPortID: 1
+        endPortID: 1

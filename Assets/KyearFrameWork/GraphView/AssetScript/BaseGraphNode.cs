@@ -9,24 +9,40 @@ using UnityEngine.UIElements;
 
 namespace Kyear.Graph
 {
-    public abstract class BaseGraphNode : Node
+    public abstract class AbstractGraphNode : Node
+    {
+        public Dictionary<uint, Port> inputPortDic = new Dictionary<uint, Port>();
+        public Dictionary<uint, Port> outputPortDic = new Dictionary<uint, Port>();
+        
+        public abstract void Save();
+        public abstract uint GetPortDataID(Port port);
+        public abstract string GetID();
+        public abstract void Init(BaseGraphNodeData data, AbstractGraph parent);
+        public abstract BaseGraphNodeData GetData();
+        public abstract List<Edge> GetAllInPutEdges();
+        public abstract List<Edge> GetAllOutPutEdges();
+        public abstract void CreateData(Vector2 position,AbstractGraph parent);
+        public abstract void AddEdge(Edge edge);
+    }
+    public abstract class BaseGraphNode<TNodeData> : AbstractGraphNode
+    where TNodeData : BaseGraphNodeData
     {
         public string ID => data?.id;
-        public BaseGraphNodeData data;
+        public TNodeData data;
         public AbstractGraph parent;
         public BaseGraphNode()
         {
             title = "Sample";
         }
 
-        public virtual void Save()
+        public override void Save()
         {
             data.position = GetPosition().position;
         }
         
-        public virtual void Init(BaseGraphNodeData data,AbstractGraph parent)
+        public override void Init(BaseGraphNodeData data,AbstractGraph parent)
         {
-            this.data = data;
+            this.data = (TNodeData)data;
             this.parent = parent;
             SetPosition(new Rect(this.data.position,Vector2.zero));
             //给每个Node都赋予唯一ID
@@ -41,12 +57,17 @@ namespace Kyear.Graph
             RefreshPorts();
             RegisterCallback<BlurEvent>(e => Save());
         }
+        
 
-        /// <summary>
-        /// 生成新节点
-        /// </summary>
-        /// <param name="position"></param>
-        public abstract void CreateData(Vector2 position,AbstractGraph parent);
+        public override string GetID()
+        {
+            return ID;
+        }
+
+        public override BaseGraphNodeData GetData()
+        {
+            return data;
+        }
         
         public virtual void Draw_InputContainer()
         {
@@ -72,9 +93,6 @@ namespace Kyear.Graph
         }
 
         #region 端口
-
-        public Dictionary<uint, Port> inputPortDic = new Dictionary<uint, Port>();
-        public Dictionary<uint, Port> outputPortDic = new Dictionary<uint, Port>();
 
         ///生成PortID
         public uint GeneratePortID(PortType type)
@@ -107,7 +125,7 @@ namespace Kyear.Graph
             dic[data.ID] = port;
         }
 
-        public uint GetPortDataID(Port port)
+        public override uint GetPortDataID(Port port)
         {
             var protData = port.userData as BasePortData;
             if (protData == null)
@@ -123,11 +141,11 @@ namespace Kyear.Graph
 
         #region 边
 
-        public void AddEdge(Edge edge)
+        public override void AddEdge(Edge edge)
         {
             var sourcePort = edge.output;
             var destPort = edge.input;
-            BaseGraphNode destNode = destPort.node as BaseGraphNode;
+            AbstractGraphNode destNode = destPort.node as AbstractGraphNode;
             if (destNode == null)
             {
                 Debug.LogError("[KyearGraphError]  目标节点不是BaseGraphNode");
@@ -137,18 +155,18 @@ namespace Kyear.Graph
             {
                 startPortID = GetPortDataID(sourcePort),
                 endPortID = destNode.GetPortDataID(destPort),
-                target = destNode.ID
+                target = destNode.GetID()
             };
             edge.userData = edgeData;
             data.edges.Add(edgeData);
         }
         
-        public List<Edge> GetAllInPutEdges()
+        public override List<Edge> GetAllInPutEdges()
         {
             return inputPortDic.Values.SelectMany(e => e.connections.ToList()).ToList();
         }
 
-        public List<Edge> GetAllOutPutEdges()
+        public override List<Edge> GetAllOutPutEdges()
         {
             return outputPortDic.Values.SelectMany(e => e.connections.ToList()).ToList();
         }

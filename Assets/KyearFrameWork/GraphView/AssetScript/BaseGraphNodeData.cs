@@ -31,7 +31,7 @@ namespace Kyear.Graph
 
         public virtual Type GetTargetType()
         {
-            return typeof(BaseGraphNode);
+            return typeof(AbstractGraphNode);
         }
     }
 }

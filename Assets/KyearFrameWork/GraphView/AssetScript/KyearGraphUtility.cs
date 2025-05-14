@@ -11,11 +11,11 @@ namespace Kyear.Graph
 {
     public static class KyearGraphUtility
     {
-        public static BaseGraphNode GetStartNode(this Edge @this)
+        public static AbstractGraphNode GetStartNode(this Edge @this)
         {
-            return @this.output.node as BaseGraphNode;
+            return @this.output.node as AbstractGraphNode;
         }
-        public static bool TryGetStartNode(this Edge @this, out BaseGraphNode startNode)
+        public static bool TryGetStartNode(this Edge @this, out AbstractGraphNode startNode)
         {
             startNode = @this.GetStartNode();
             if (startNode == null)
@@ -23,11 +23,11 @@ namespace Kyear.Graph
             return true;
         }
         
-        public static BaseGraphNode GetEndNode(this Edge @this)
+        public static AbstractGraphNode GetEndNode(this Edge @this)
         {
-            return @this.output.node as BaseGraphNode;
+            return @this.output.node as AbstractGraphNode;
         }
-        public static bool TryGetEndNode(this Edge @this, out BaseGraphNode endNode)
+        public static bool TryGetEndNode(this Edge @this, out AbstractGraphNode endNode)
         {
             endNode = @this.GetEndNode();
             if (endNode == null)
@@ -42,7 +42,7 @@ namespace Kyear.Graph
                 return;
             if (@this.TryGetStartNode(out var startNode))
             {
-                startNode.data.edges.Remove(edgeData);
+                startNode.GetData().edges.Remove(edgeData);
             }
         }
 
