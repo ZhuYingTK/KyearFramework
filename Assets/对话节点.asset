@@ -14,51 +14,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guid: c3ef44af0eba9e347836fedb084ce55d
   nodeDataList:
-  - rid: 6588810650269253655
-  - rid: 6588810650269253657
+  - rid: 8676707632908599298
   references:
     version: 2
     RefIds:
-    - rid: 6588810650269253655
-      type: {class: DialogTitleNodeData, ns: Kyear.Graph, asm: Assembly-CSharp}
-      data:
-        position: {x: 1028, y: 510.6667}
-        id: e780a363-2eaa-44da-afd0-50d8b42c1973
-        inputPorts: []
-        outputPorts:
-        - rid: 6588810650269253656
-        edges:
-        - rid: 6588810650269253660
-        content: 111
-    - rid: 6588810650269253656
-      type: {class: BasePortData, ns: Kyear.Graph, asm: Assembly-CSharp}
-      data:
-        name: "\u8F93\u51FA"
-        ID: 1
-    - rid: 6588810650269253657
+    - rid: 8676707632908599298
       type: {class: DialogNodeData, ns: Kyear.Graph, asm: Assembly-CSharp}
       data:
-        position: {x: 1430.6666, y: 544}
-        id: ef2417c0-9d31-4cbd-94b7-f3f940c174d7
+        position: {x: 247, y: 229}
+        id: 078781be-0ba0-4602-a077-526c680ecac8
         inputPorts:
-        - rid: 6588810650269253658
+        - rid: 8676707632908599299
         outputPorts:
-        - rid: 6588810650269253659
+        - rid: 8676707632908599300
         edges: []
-        content: 222
-    - rid: 6588810650269253658
+        content: 
+    - rid: 8676707632908599299
       type: {class: BasePortData, ns: Kyear.Graph, asm: Assembly-CSharp}
       data:
         name: "\u8F93\u5165"
         ID: 1
-    - rid: 6588810650269253659
+    - rid: 8676707632908599300
       type: {class: BasePortData, ns: Kyear.Graph, asm: Assembly-CSharp}
       data:
         name: "\u8F93\u51FA"
         ID: 1
-    - rid: 6588810650269253660
-      type: {class: BaseEdgeData, ns: Kyear.Graph, asm: Assembly-CSharp}
-      data:
-        target: ef2417c0-9d31-4cbd-94b7-f3f940c174d7
-        startPortID: 1
-        endPortID: 1

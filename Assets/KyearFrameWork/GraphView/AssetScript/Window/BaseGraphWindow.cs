@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Object = UnityEngine.Object;
@@ -27,13 +28,14 @@ namespace Kyear.Graph
         [SerializeReference]
         private TGraphAsset m_asset;
 
-        private TGraph m_graph;
+        protected TGraph m_graph;
         public override string selectedGuid
         {
             get { return m_asset?.guid; }
         }
 
         private bool isWindowFocused = false;
+        protected Toolbar m_toolbar;
 
         /// <summary>
         /// 更新Title
@@ -44,10 +46,8 @@ namespace Kyear.Graph
             string assetName = Path.GetFileNameWithoutExtension(assetPath);
             title = assetName;
             Texture2D icon;
-            {
-                string theme = EditorGUIUtility.isProSkin ? "_dark" : "_light";
-                icon = Resources.Load<Texture2D>("Icons/sg_subgraph_icon_gray" + theme);
-            }
+            string theme = EditorGUIUtility.isProSkin ? "_dark" : "_light";
+            icon = Resources.Load<Texture2D>("Icons/sg_subgraph_icon_gray" + theme);
 
             titleContent = new GUIContent(title, icon);
         }
@@ -104,6 +104,11 @@ namespace Kyear.Graph
             m_graph.Save();
         }
 
+        protected virtual void SetToolButtons()
+        {
+            
+        }
+
         /// <summary>
         /// 初始化
         /// </summary>
@@ -130,16 +135,24 @@ namespace Kyear.Graph
             // 创建新的 TGraph 对象
             TGraph graph = new TGraph();  // 假设 TGraph 有一个默认构造函数
             graph.name = oldGraph.name;   // 如果需要保留旧对象的名字或其他属性
-            // 你可以复制其他属性或调用初始化方法来模仿原对象的状态
             graph.style.flexGrow = 1;
             // 将新对象插入到原来的位置
             parent.Insert(index, graph);
             graph.SetParentWindow(this);
             graph.Init(m_asset);
             m_graph = graph;
-            string graphName = Path.GetFileNameWithoutExtension(path);
+            
+            Toolbar oldToolbar = rootVisualElement.Q<Toolbar>("Toolbar");
+            parent = oldToolbar.parent; // 获取父节点
+            index = parent.IndexOf(oldToolbar);
+            parent.Remove(oldToolbar);
+            m_toolbar = new Toolbar();
+            parent.Insert(index,m_toolbar);
+            
+            
             UpdateTitle();
             Repaint();
+            SetToolButtons();
         }
     }
     

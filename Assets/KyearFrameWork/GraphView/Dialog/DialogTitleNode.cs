@@ -30,6 +30,7 @@ namespace Kyear.Graph
         {
             base.Init(data, parent);
             textTextField.value = base.data.content;
+            title = "对话标题节点";
         }
         public override void CreateData(Vector2 position, AbstractGraph parent)
         {

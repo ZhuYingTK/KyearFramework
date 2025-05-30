@@ -31,6 +31,7 @@ namespace Kyear.Graph
         {
             base.Init(data, parent);
             textTextField.value = base.data.content;
+            title = "对话节点";
         }
 
 
