@@ -103,7 +103,12 @@ namespace Kyear.Graph
             while (true)
             {
                 if (!Dic.ContainsKey(id))
+                {
+                    //占用
+                    Dic[id] = null;
                     return id;
+                }
+                id++;
             }
         }
         

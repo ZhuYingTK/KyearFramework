@@ -38,7 +38,7 @@ namespace Kyear.Graph
             {
                 id = Guid.NewGuid().ToString(),
                 position = position,
-                outputPorts = new List<BasePortData>(){new BasePortData(){name = "输出",ID = GeneratePortID(PortType.Input)}},
+                outputPorts = new List<BasePortData>(){new BasePortData(){name = "输出",ID = GeneratePortID(PortType.Output)}},
             };
             Debug.Log($"[KyearGraphError]  创建节点:{data.id}");
             Init(data,parent);
