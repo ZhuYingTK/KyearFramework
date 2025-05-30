@@ -206,6 +206,7 @@ namespace Kyear.Graph
                 objectType = typeof(Texture)
             };
             textureField.RegisterCallback<FocusOutEvent>(e => Save());
+            textureField.RegisterValueChangedCallback(e =>Save());
             textureField.labelElement.SetToDefaultStyle();
             textureField.MarkDirtyRepaint();
             return textureField;

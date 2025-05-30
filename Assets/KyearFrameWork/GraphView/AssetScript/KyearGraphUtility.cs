@@ -81,6 +81,62 @@ namespace Kyear.Graph
 
         #endregion
 
+        #region GUID加载
+
+        /// <summary>
+        /// 获取Unity资源的GUID
+        /// </summary>
+        /// <param name="assetObject">Unity资源对象</param>
+        /// <returns>资源的GUID，如果无效返回null</returns>
+        public static string GetGuidFromObject(Object assetObject)
+        {
+#if UNITY_EDITOR
+            if (assetObject == null)
+            {
+                return null;
+            }
+
+            string path = AssetDatabase.GetAssetPath(assetObject);
+            if (string.IsNullOrEmpty(path))
+            {
+                return null;
+            }
+
+            return AssetDatabase.AssetPathToGUID(path);
+#else
+        Debug.LogError("GetGuidFromObject is only available in the Unity Editor");
+        return null;
+#endif
+        }
+
+        /// <summary>
+        /// 通过GUID加载Unity资源
+        /// </summary>
+        /// <param name="guid">资源GUID</param>
+        /// <returns>资源对象，如果无效返回null</returns>
+        public static T LoadObjectFromGuid<T>(string guid) where T : Object
+        {
+#if UNITY_EDITOR
+            if (string.IsNullOrEmpty(guid))
+            {
+                return null;
+            }
+
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            if (string.IsNullOrEmpty(path))
+            {
+                return null;
+            }
+
+            return AssetDatabase.LoadAssetAtPath<T>(path);
+#else
+        Debug.LogError("LoadObjectFromGuid is only available in the Unity Editor");
+        return null;
+#endif
+        }
+
+        #endregion
+
     }
 }
 
