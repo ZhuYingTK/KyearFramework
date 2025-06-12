@@ -9,7 +9,7 @@ namespace Kyear.Graph
     {
         protected override void SetToolButtons()
         {
-            var button = new ToolbarButton(() => { PrintData(); }) { text = "打印" };
+            var button = new ToolbarButton(() => { PrintData(); }) { text = "导出" };
             m_toolbar.Add(button);
         }
 

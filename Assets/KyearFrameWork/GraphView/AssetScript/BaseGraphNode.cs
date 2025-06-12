@@ -127,6 +127,7 @@ namespace Kyear.Graph
             var dic = type == PortType.Input ? inputPortDic : outputPortDic;
             var port = Port.Create<Edge>(Orientation.Horizontal, direction, Port.Capacity.Single, typeof(Port));
             port.name = data.name;
+            port.portName = data.name;
             port.userData = data;
             container.Add(port);
             dic[data.ID] = port;

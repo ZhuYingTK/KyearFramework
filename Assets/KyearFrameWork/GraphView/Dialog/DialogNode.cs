@@ -54,7 +54,7 @@ namespace Kyear.Graph
             customDataContainer.AddToClassList("kyear-node__custom-data-container");
             Foldout textFoldout = new Foldout()
             {
-                text = "输入",
+                text = "展开",
                 value = true
             };
 
