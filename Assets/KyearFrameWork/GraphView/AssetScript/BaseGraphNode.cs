@@ -19,10 +19,12 @@ namespace Kyear.Graph
         public abstract string GetID();
         public abstract void Init(BaseGraphNodeData data, AbstractGraph parent);
         public abstract BaseGraphNodeData GetData();
-        public abstract List<Edge> GetAllInPutEdges();
-        public abstract List<Edge> GetAllOutPutEdges();
+        public abstract IEnumerable<Edge> GetAllInPutEdges();
+        public abstract IEnumerable<Edge> GetAllOutPutEdges();
         public abstract void CreateData(Vector2 position,AbstractGraph parent);
         public abstract void AddEdge(Edge edge);
+        public abstract IEnumerable<AbstractGraphNode> GetBeforeNodes();
+        public abstract IEnumerable<AbstractGraphNode> GetAfterNodes();
     }
     public abstract class BaseGraphNode<TNodeData> : AbstractGraphNode
     where TNodeData : BaseGraphNodeData
@@ -165,15 +167,21 @@ namespace Kyear.Graph
             edge.userData = edgeData;
             data.edges.Add(edgeData);
         }
-        
-        public override List<Edge> GetAllInPutEdges()
+        /// <summary>
+        /// 输入该节点的边
+        /// </summary>
+        /// <returns></returns>
+        public override IEnumerable<Edge> GetAllInPutEdges()
         {
-            return inputPortDic.Values.SelectMany(e => e.connections.ToList()).ToList();
+            return inputPortDic.Values.SelectMany(e => e.connections);
         }
-
-        public override List<Edge> GetAllOutPutEdges()
+        /// <summary>
+        /// 该节点输出的边
+        /// </summary>
+        /// <returns></returns>
+        public override IEnumerable<Edge> GetAllOutPutEdges()
         {
-            return outputPortDic.Values.SelectMany(e => e.connections.ToList()).ToList();
+            return outputPortDic.Values.SelectMany(e => e.connections);
         }
         
 
@@ -212,6 +220,40 @@ namespace Kyear.Graph
             return textureField;
         }
 
+        #endregion
+        
+        #region 访问工具
+
+        /// <summary>
+        /// 获得所有前序节点
+        /// </summary>
+        /// <returns></returns>
+        public override IEnumerable<AbstractGraphNode> GetBeforeNodes()
+        {
+            foreach (Edge edge in GetAllInPutEdges())
+            {
+                if (edge.TryGetStartNode(out var target))
+                {
+                    yield return target;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 获得所有后序节点
+        /// </summary>
+        /// <returns></returns>
+        public override IEnumerable<AbstractGraphNode> GetAfterNodes()
+        {
+            foreach (Edge edge in GetAllOutPutEdges())
+            {
+                if (edge.TryGetEndNode(out var target))
+                {
+                    yield return target;
+                }
+            }
+        }
+        
         #endregion
 
     }

@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 namespace Kyear.Graph
 {
-    public class DialogGraph : BaseGraph<DialogSearchWindow,DialogAsset,DialogNode>
+    public class DialogGraph : BaseGraph<DialogSearchWindow,DialogAsset>
     {
     }
 

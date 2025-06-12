@@ -15,7 +15,7 @@ namespace Kyear.Graph
 
         private void PrintData()
         {
-            Debug.Log("打印");
+            m_graph.GetRootNode();
         }
     }
 

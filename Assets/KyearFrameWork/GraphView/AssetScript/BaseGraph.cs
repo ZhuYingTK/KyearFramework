@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -17,10 +18,9 @@ namespace Kyear.Graph
         public virtual void SetParentWindow(EditorWindow window){}
         public virtual void Init(BaseGraphAsset graphAsset){}
     }
-    public partial class BaseGraph<TSearchWindow,TGraphAsset,TRootNode> : AbstractGraph
+    public partial class BaseGraph<TSearchWindow,TGraphAsset>: AbstractGraph
     where TSearchWindow : BaseSearchWindow
     where TGraphAsset : BaseGraphAsset
-    where TRootNode : AbstractGraphNode
     {
         private EditorWindow parentWindow;
         private TSearchWindow searchWindow;
@@ -219,5 +219,32 @@ namespace Kyear.Graph
 
             return compatiblePorts;
         }
+
+        #region 访问工具
+
+        public IEnumerable<AbstractGraphNode> Nodes
+        {
+            get => m_nodeDic.Values;
+        }
+        public AbstractGraphNode GetRootNode()
+        {
+            AbstractGraphNode rootNode = null;
+            foreach (var node in Nodes)
+            {
+
+                if (!node.GetBeforeNodes().Any())
+                {
+                    if (rootNode != null)
+                    {
+                        Debug.Log("<color=red>[KyearGraphError]  出现多个根节点</color>");
+                        return null;
+                    }
+                    rootNode = node;
+                }
+            }
+            return rootNode;
+        }
+
+        #endregion
     }
 }

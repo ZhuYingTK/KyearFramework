@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Kyear.Graph
 {
-    public partial class BaseGraph<TSearchWindow,TGraphAsset,TRootNode>: AbstractGraph
+    public partial class BaseGraph<TSearchWindow,TGraphAsset>: AbstractGraph
     {
         public override void Save()
         {
