@@ -35,17 +35,23 @@ namespace Kyear.Graph
         }
 
 
-        public override void CreateData(Vector2 position,AbstractGraph parent)
+        public override void CreateData(Vector2 position, AbstractGraph parent)
         {
             DialogNodeData data = new DialogNodeData()
             {
                 id = Guid.NewGuid().ToString(),
                 position = position,
-                inputPorts = new List<BasePortData>(){new BasePortData(){name = "输入",ID = GeneratePortID(PortType.Input)}},
-                outputPorts = new List<BasePortData>(){new BasePortData(){name = "输出",ID = GeneratePortID(PortType.Output)}},
+                inputPorts = new List<BasePortData>()
+                {
+                    new("输入", GeneratePortID(PortType.Input), Port.Capacity.Multi)
+                },
+                outputPorts = new List<BasePortData>()
+                {
+                    new("输出", GeneratePortID(PortType.Output), Port.Capacity.Multi)
+                },
             };
             Debug.Log($"[KyearGraphError]  创建节点:{data.id}");
-            Init(data,parent);
+            Init(data, parent);
         }
 
         public override void Draw_ExtensionContainer()

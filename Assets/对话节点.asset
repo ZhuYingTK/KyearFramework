@@ -14,28 +14,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guid: c3ef44af0eba9e347836fedb084ce55d
   nodeDataList:
-  - rid: 8676707638177955894
+  - rid: 109217106635522048
   references:
     version: 2
     RefIds:
-    - rid: 8676707638177955894
-      type: {class: DialogTextureNodeData, ns: Kyear.Graph, asm: Assembly-CSharp}
+    - rid: 109217106635522048
+      type: {class: DialogChoiceNodeData, ns: Kyear.Graph, asm: Assembly-CSharp}
       data:
-        position: {x: 340, y: 119}
-        id: f593623c-c2a9-4539-ae4e-f906b6b67da4
+        position: {x: 260, y: -31}
+        id: d8301718-1a70-415c-b556-bf6120dfccd0
         inputPorts:
-        - rid: 8676707638177955895
+        - rid: 109217106635522049
         outputPorts:
-        - rid: 8676707638177955896
+        - rid: 109217106635522050
         edges: []
-        path: 0000000000000000f000000000000000
-    - rid: 8676707638177955895
+        content: []
+    - rid: 109217106635522049
       type: {class: BasePortData, ns: Kyear.Graph, asm: Assembly-CSharp}
       data:
         name: "\u8F93\u5165"
         ID: 1
-    - rid: 8676707638177955896
+        capacity: 1
+    - rid: 109217106635522050
       type: {class: BasePortData, ns: Kyear.Graph, asm: Assembly-CSharp}
       data:
         name: "\u8F93\u51FA"
         ID: 1
+        capacity: 1

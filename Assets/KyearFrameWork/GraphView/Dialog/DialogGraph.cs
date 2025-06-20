@@ -30,8 +30,13 @@ namespace Kyear.Graph
                 new SearchTreeEntry(new GUIContent("图片节点", indentationIcon))
                 {
                 userData = typeof(DialogTextureNode),
-                level = 1
-            }
+                level = 1 
+                },
+                new SearchTreeEntry(new GUIContent("选择节点", indentationIcon))
+                {
+                    userData = typeof(DialogChoiceNode),
+                    level = 1 
+                },
             };
             return searchTreeEntries;
         }

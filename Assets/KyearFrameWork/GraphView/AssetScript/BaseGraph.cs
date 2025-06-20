@@ -136,8 +136,7 @@ namespace Kyear.Graph
         private void AddManipulators()
         {
             // 开启Graph缩放
-            SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
-            this.AddManipulator(new ContentZoomer());
+            this.AddManipulator(new ContentZoomer(){minScale = 0.3f,maxScale = 2});
             // 添加拖动Content功能
             this.AddManipulator(new ContentDragger());
             // 添加拖拽选中功能

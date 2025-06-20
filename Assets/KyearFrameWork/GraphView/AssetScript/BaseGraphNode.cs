@@ -26,7 +26,7 @@ namespace Kyear.Graph
         public abstract IEnumerable<AbstractGraphNode> GetBeforeNodes();
         public abstract IEnumerable<AbstractGraphNode> GetAfterNodes();
     }
-    public abstract class BaseGraphNode<TNodeData> : AbstractGraphNode
+    public abstract partial class BaseGraphNode<TNodeData> : AbstractGraphNode
     where TNodeData : BaseGraphNodeData
     {
         public string ID => data?.id;
@@ -125,7 +125,7 @@ namespace Kyear.Graph
             var direction = type == PortType.Input ? Direction.Input : Direction.Output;
             var container = type == PortType.Input ? inputContainer : outputContainer;
             var dic = type == PortType.Input ? inputPortDic : outputPortDic;
-            var port = Port.Create<Edge>(Orientation.Horizontal, direction, Port.Capacity.Single, typeof(Port));
+            var port = Port.Create<Edge>(Orientation.Horizontal, direction, Port.Capacity.Multi, typeof(Port));
             port.name = data.name;
             port.portName = data.name;
             port.userData = data;
@@ -186,40 +186,6 @@ namespace Kyear.Graph
         }
         
 
-
-        #endregion
-
-        #region 创建元素
-
-        public TextField CreateTextField(string label, string value = "", bool multiline = true, int labelWidth = -1)
-        {
-            TextField textTextField = new TextField()
-            {
-                label = label,
-                value = value
-            };
-            textTextField.RegisterCallback<FocusOutEvent>(e => Save());
-            textTextField.multiline = multiline;
-            textTextField.AddToClassList("kyear-node__text-field");
-            textTextField.AddToClassList("kyear-node__quote-text-field");
-            textTextField.labelElement.SetToDefaultStyle();
-            textTextField.MarkDirtyRepaint();
-            return textTextField;
-        }
-
-        public ObjectField CreateTextureField(string label)
-        {
-            ObjectField textureField = new ObjectField()
-            {
-                label = label,
-                objectType = typeof(Texture)
-            };
-            textureField.RegisterCallback<FocusOutEvent>(e => Save());
-            textureField.RegisterValueChangedCallback(e =>Save());
-            textureField.labelElement.SetToDefaultStyle();
-            textureField.MarkDirtyRepaint();
-            return textureField;
-        }
 
         #endregion
         

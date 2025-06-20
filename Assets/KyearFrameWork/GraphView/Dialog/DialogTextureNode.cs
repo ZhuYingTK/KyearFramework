@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -59,11 +60,11 @@ namespace Kyear.Graph
                 position = position,
                 inputPorts = new List<BasePortData>()
                 {
-                    new (){name = "输入",ID = GeneratePortID(PortType.Input)}
+                    new ("输入",GeneratePortID(PortType.Input),Port.Capacity.Multi)
                 },
                 outputPorts = new List<BasePortData>()
                 {
-                    new (){name = "输出",ID = GeneratePortID(PortType.Output)},
+                    new ("输出",GeneratePortID(PortType.Output),Port.Capacity.Multi),
                 },
             };
             Debug.Log($"[KyearGraphError]  创建节点:{data.id}");

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace Kyear.Graph
@@ -10,6 +11,14 @@ namespace Kyear.Graph
     {
         [SerializeField] public string name;
         [SerializeField] public uint ID;
+        [SerializeField] public Port.Capacity capacity;
+
+        public BasePortData(string name, uint id, Port.Capacity capacity)
+        {
+            this.name = name;
+            ID = id;
+            this.capacity = capacity;
+        }
     }
   
     [Serializable]
